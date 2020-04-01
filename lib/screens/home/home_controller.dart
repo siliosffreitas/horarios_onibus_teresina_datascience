@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:horariosonibusapp/data/network/request_state.dart';
 import 'package:mobx/mobx.dart';
 
@@ -18,7 +19,21 @@ abstract class _HomeController with Store {
   void recuperarHorarios() {
     stateRecuperarHorarios = RequestState.LOADING;
 
-    Future.delayed(const Duration(seconds: 5))
-        .then((value) => stateRecuperarHorarios = RequestState.SUCCESS);
+    FirebaseDatabase.instance.setPersistenceEnabled(true);
+    FirebaseDatabase.instance.setPersistenceCacheSizeBytes(10000000);
+
+    DatabaseReference _horariosRef = FirebaseDatabase.instance.reference().child('horarios');
+    _horariosRef.keepSynced(true);
+    _horariosRef.onValue.listen((event) {
+      horarios = event.snapshot.value;
+      stateRecuperarHorarios = RequestState.SUCCESS;
+    }, onError: (Object o) {
+      stateRecuperarHorarios = RequestState.FAIL;
+    });
+
+
+
+//    Future.delayed(const Duration(seconds: 5))
+//        .then((value) => stateRecuperarHorarios = RequestState.SUCCESS);
   }
 }
