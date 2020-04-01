@@ -26,25 +26,55 @@ mixin _$HomeController on _HomeController, Store {
     }, _$horariosAtom, name: '${_$horariosAtom.name}_set');
   }
 
-  final _$stateLoginAtom = Atom(name: '_HomeController.stateLogin');
+  final _$sortOptionAtom = Atom(name: '_HomeController.sortOption');
+
+  @override
+  SortOption get sortOption {
+    _$sortOptionAtom.context.enforceReadPolicy(_$sortOptionAtom);
+    _$sortOptionAtom.reportObserved();
+    return super.sortOption;
+  }
+
+  @override
+  set sortOption(SortOption value) {
+    _$sortOptionAtom.context.conditionallyRunInAction(() {
+      super.sortOption = value;
+      _$sortOptionAtom.reportChanged();
+    }, _$sortOptionAtom, name: '${_$sortOptionAtom.name}_set');
+  }
+
+  final _$stateRecuperarHorariosAtom =
+      Atom(name: '_HomeController.stateRecuperarHorarios');
 
   @override
   RequestState get stateRecuperarHorarios {
-    _$stateLoginAtom.context.enforceReadPolicy(_$stateLoginAtom);
-    _$stateLoginAtom.reportObserved();
+    _$stateRecuperarHorariosAtom.context
+        .enforceReadPolicy(_$stateRecuperarHorariosAtom);
+    _$stateRecuperarHorariosAtom.reportObserved();
     return super.stateRecuperarHorarios;
   }
 
   @override
   set stateRecuperarHorarios(RequestState value) {
-    _$stateLoginAtom.context.conditionallyRunInAction(() {
+    _$stateRecuperarHorariosAtom.context.conditionallyRunInAction(() {
       super.stateRecuperarHorarios = value;
-      _$stateLoginAtom.reportChanged();
-    }, _$stateLoginAtom, name: '${_$stateLoginAtom.name}_set');
+      _$stateRecuperarHorariosAtom.reportChanged();
+    }, _$stateRecuperarHorariosAtom,
+        name: '${_$stateRecuperarHorariosAtom.name}_set');
   }
 
   final _$_HomeControllerActionController =
       ActionController(name: '_HomeController');
+
+  @override
+  void mudarOrdenacao() {
+    final _$actionInfo = _$_HomeControllerActionController.startAction();
+    try {
+      return super.mudarOrdenacao();
+    } finally {
+      _$_HomeControllerActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void recuperarHorarios() {
@@ -59,7 +89,7 @@ mixin _$HomeController on _HomeController, Store {
   @override
   String toString() {
     final string =
-        'horarios: ${horarios.toString()},stateLogin: ${stateRecuperarHorarios.toString()}';
+        'horarios: ${horarios.toString()},sortOption: ${sortOption.toString()},stateRecuperarHorarios: ${stateRecuperarHorarios.toString()}';
     return '{$string}';
   }
 }

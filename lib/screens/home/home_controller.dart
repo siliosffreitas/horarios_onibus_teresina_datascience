@@ -1,6 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:horariosonibusapp/data/network/request_state.dart';
+import 'package:horariosonibusapp/utils/sort.dart';
 import 'package:mobx/mobx.dart';
 
 part 'home_controller.g.dart';
@@ -14,17 +15,17 @@ abstract class _HomeController with Store {
   Map horarios = {};
 
   @observable
+  SortOption sortOption = SortOption.ASK;
+
+  @observable
   RequestState stateRecuperarHorarios;
 
   @action
-  void ordenarLinhas({@required ask = true}) {
-    if (horarios != null && horarios.isNotEmpty) {
-      if (ask) {
-        horarios.keys.toList().sort((a, b) => a.compareTo(b));
-      } else {
-        horarios.keys.toList().sort((a, b) => b.compareTo(a));
-      }
-      print(horarios.keys);
+  void mudarOrdenacao() {
+    if (sortOption == SortOption.ASK) {
+      sortOption = SortOption.DESK;
+    } else {
+      sortOption = SortOption.ASK;
     }
   }
 
@@ -40,7 +41,6 @@ abstract class _HomeController with Store {
     _horariosRef.keepSynced(true);
     _horariosRef.onValue.listen((event) {
       horarios = event.snapshot.value;
-      ordenarLinhas();
       stateRecuperarHorarios = RequestState.SUCCESS;
     }, onError: (Object o) {
       stateRecuperarHorarios = RequestState.FAIL;
