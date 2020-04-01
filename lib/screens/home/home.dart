@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:horariosonibusapp/data/network/request_state.dart';
+import 'package:horariosonibusapp/screens/home/delegate/line_search.dart';
 import 'package:horariosonibusapp/screens/home/error_message_screen.dart';
 import 'package:horariosonibusapp/screens/home/home_controller.dart';
 import 'package:horariosonibusapp/screens/home/linha_tile.dart';
 import 'package:horariosonibusapp/screens/home/loader.dart';
+import 'package:horariosonibusapp/screens/paradas/paradas_da_linha_screen.dart';
 import 'package:horariosonibusapp/utils/sort.dart';
 
 class Home extends StatefulWidget {
@@ -22,6 +24,16 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     _homeController.recuperarHorarios();
+  }
+
+  _callSearch(String term) async {
+    String result =
+        await showSearch(context: context, delegate: LineSearch(), query: term);
+
+    if (result != null) {
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => ParadasDaLinhaScreen(codigoLinha: result)));
+    }
   }
 
   @override
@@ -53,10 +65,11 @@ class _HomeState extends State<Home> {
                     return Container();
                   default:
                     return IconButton(
-                      icon: Icon(Icons.refresh),
+                      icon: Icon(Icons.search),
                       onPressed: () {
-                        _homeController.recuperarHorarios();
+                        _callSearch(null);
                       },
+                      tooltip: "Pesquisar linha",
                     );
                 }
               },
@@ -82,7 +95,14 @@ class _HomeState extends State<Home> {
                   child: ListView(
                     physics: const AlwaysScrollableScrollPhysics(),
                     children: linhas
-                        .map((horarioKey) => LinhaTile(codigoLinha: horarioKey))
+                        .map((horarioKey) => LinhaTile(
+                              codigoLinha: horarioKey,
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => ParadasDaLinhaScreen(
+                                        codigoLinha: horarioKey)));
+                              },
+                            ))
                         .toList(),
                   ),
                   onRefresh: _handleRefresh,
