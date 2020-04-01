@@ -54,8 +54,11 @@ class _HomeState extends State<Home> {
               case RequestState.FAIL:
                 return ErrorMessageScreen();
               case RequestState.SUCCESS:
+                List linhas = _homeController.horarios.keys.toList();
+                linhas.sort((a, b) => a.compareTo(b));
+
                 return ListView(
-                  children: _homeController.horarios.keys
+                  children: linhas
                       .map((horarioKey) => LinhaTile(codigoLinha: horarioKey))
                       .toList(),
                 );

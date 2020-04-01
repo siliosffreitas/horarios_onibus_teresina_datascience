@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:horariosonibusapp/screens/home/home_controller.dart';
 import 'package:horariosonibusapp/screens/horarios/horario_tile.dart';
+import 'package:horariosonibusapp/utils/utils.dart';
 
 class HorariosScreen extends StatelessWidget {
   final String codigoLinha;
@@ -21,9 +22,21 @@ class HorariosScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text("Horários de ${codigoLinha} em ${codigoParada}"),
         actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.info_outline),
-            onPressed: () {},
+          Observer(
+            builder: (_) {
+              String mensagem = _homeController.horarios[codigoLinha]
+                          [codigoParada]['metricas']
+                      .replaceAll("       ", "\n")
+                      .replaceAll("      ", "\n") +
+                  "\n\nÚltima atualização: ${_homeController.horarios[codigoLinha][codigoParada]['ultima_atualizacao']}";
+              return IconButton(
+                icon: Icon(Icons.info_outline),
+                onPressed: () {
+                  dialogAlert(context,
+                      title: "Mais Informações", message: mensagem);
+                },
+              );
+            },
           )
         ],
       ),
@@ -35,14 +48,8 @@ class HorariosScreen extends StatelessWidget {
           horarios = horarios.replaceAll("]", "");
           horarios = horarios.replaceAll("'", "");
           horarios = horarios.replaceAll(" ", "");
-//           print(horarios);
 
           List<String> listHorarios = horarios.split(",");
-          print(listHorarios);
-
-//          List horarios = ;
-//          print(horarios);
-//          paradas.sort((a, b) => int.parse(a).compareTo(int.parse(b)));
 
           return ListView(
             children: listHorarios.map((e) => HorarioTile(horario: e)).toList(),

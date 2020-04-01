@@ -7,9 +7,12 @@ class HorarioTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(Icons.access_time),
-      title: Text(horario),
+    return Container(
+      height: 50,
+      child: ListTile(
+        leading: Icon(Icons.access_time),
+        title: Text(horario),
+      ),
     );
   }
 }
