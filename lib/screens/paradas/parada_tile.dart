@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:horariosonibusapp/screens/paradas/paradas_da_linha_screen.dart';
+import 'package:horariosonibusapp/screens/horarios/horarios_screen.dart';
 
 class ParadaTile extends StatelessWidget {
   final String codigoParada;
+  final String codigoLinha;
 
-  const ParadaTile({Key key, this.codigoParada}) : super(key: key);
+  const ParadaTile({Key key, @required this.codigoParada, @required this.codigoLinha})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +14,11 @@ class ParadaTile extends StatelessWidget {
       leading: Icon(Icons.flag),
       title: Text(codigoParada),
       trailing: Icon(Icons.chevron_right),
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => HorariosScreen(
+                codigoLinha: codigoLinha, codigoParada: codigoParada)));
+      },
     );
   }
 }
