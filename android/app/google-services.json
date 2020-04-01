@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "489665203963",
+    "firebase_url": "https://horarios-artigo-datascience.firebaseio.com",
+    "project_id": "horarios-artigo-datascience",
+    "storage_bucket": "horarios-artigo-datascience.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:489665203963:android:240507f616e0120444aa5e",
+        "android_client_info": {
+          "package_name": "com.starbus.horariosonibusapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "489665203963-q6r5hb9j8h8b68q2s49f0fs04mea7of4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlYHiFb9YUspcRH4QA9fRDXZWvazRf4mc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "489665203963-q6r5hb9j8h8b68q2s49f0fs04mea7of4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "489665203963-0ga4m5k7b3329lqsal2h549ue9cv6nn3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.starbus.horariosonibusapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
