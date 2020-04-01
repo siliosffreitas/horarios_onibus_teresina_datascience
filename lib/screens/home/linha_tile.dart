@@ -14,7 +14,10 @@ class LinhaTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(Icons.directions_bus),
+      leading: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Icon(Icons.directions_bus),
+      ),
       title: Text(codigoLinha),
       subtitle: Observer(
         builder: (_) {

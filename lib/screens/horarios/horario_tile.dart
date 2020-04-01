@@ -10,7 +10,10 @@ class HorarioTile extends StatelessWidget {
     return Container(
       height: 50,
       child: ListTile(
-        leading: Icon(Icons.access_time),
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Icon(Icons.access_time),
+        ),
         title: Text(horario),
       ),
     );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:horariosonibusapp/data/network/request_state.dart';
+import 'package:horariosonibusapp/screens/home/custom_drawer.dart';
 import 'package:horariosonibusapp/screens/home/delegate/line_search.dart';
 import 'package:horariosonibusapp/screens/home/error_message_screen.dart';
 import 'package:horariosonibusapp/screens/home/home_controller.dart';
@@ -76,6 +77,7 @@ class _HomeState extends State<Home> {
             )
           ],
         ),
+        drawer: CustomDrawer(),
         body: Observer(
           builder: (_) {
             switch (_homeController.stateRecuperarHorarios) {

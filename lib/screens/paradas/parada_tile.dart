@@ -11,7 +11,10 @@ class ParadaTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(Icons.flag),
+      leading: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Icon(Icons.flag),
+      ),
       title: Text(codigoParada),
       trailing: Icon(Icons.chevron_right),
       onTap: () {
