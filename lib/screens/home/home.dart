@@ -30,25 +30,21 @@ class _HomeState extends State<Home> {
         appBar: AppBar(
           title: Text("Linhas"),
           actions: <Widget>[
-            Observer(
-              builder: (_) {
-                switch (_homeController.sortOption) {
-                  case SortOption.ASK:
-                    return IconButton(
-                      icon: Icon(Icons.arrow_drop_up),
-                      onPressed: () {
-                        _homeController.mudarOrdenacao();
-                      },
-                    );
-                  default:
-                    return IconButton(
-                      icon: Icon(Icons.arrow_drop_down),
-                      onPressed: () {
-                        _homeController.mudarOrdenacao();
-                      },
-                    );
-                }
+            IconButton(
+              icon: Observer(
+                builder: (_) {
+                  switch (_homeController.sortOption) {
+                    case SortOption.ASK:
+                      return Icon(Icons.arrow_drop_up);
+                    default:
+                      return Icon(Icons.arrow_drop_down);
+                  }
+                },
+              ),
+              onPressed: () {
+                _homeController.mudarOrdenacao();
               },
+              tooltip: "Modificar Ordenação",
             ),
             Observer(
               builder: (_) {
@@ -82,15 +78,26 @@ class _HomeState extends State<Home> {
                   linhas.sort((a, b) => b.compareTo(a));
                 }
 
-                return ListView(
-                  children: linhas
-                      .map((horarioKey) => LinhaTile(codigoLinha: horarioKey))
-                      .toList(),
+                return RefreshIndicator(
+                  child: ListView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    children: linhas
+                        .map((horarioKey) => LinhaTile(codigoLinha: horarioKey))
+                        .toList(),
+                  ),
+                  onRefresh: _handleRefresh,
                 );
+
               default:
                 return Container();
             }
           },
         ));
+  }
+
+  Future<Null> _handleRefresh() async {
+    _homeController.recuperarHorarios();
+
+    return null;
   }
 }
