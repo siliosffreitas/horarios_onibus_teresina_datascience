@@ -44,6 +44,7 @@ class _HorariosScreenState extends State<HorariosScreen>
               actions: <Widget>[
                 IconButton(
                   icon: Icon(Icons.info),
+                  tooltip: "Mais Informações",
                   onPressed: () {
                     String tab = tabKeys.elementAt(_tabController.index);
                     String mensagem = _homeController
