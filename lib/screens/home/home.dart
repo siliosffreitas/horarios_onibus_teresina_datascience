@@ -25,11 +25,12 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     _homeController.recuperarHorarios();
+    _homeController.recuperarParadas();
   }
 
   _callSearch(String term) async {
     String result =
-        await showSearch(context: context, delegate: LineSearch(), query: term);
+    await showSearch(context: context, delegate: LineSearch(), query: term);
 
     if (result != null) {
       Navigator.of(context).push(MaterialPageRoute(

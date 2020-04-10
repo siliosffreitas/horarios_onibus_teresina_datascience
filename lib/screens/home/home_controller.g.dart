@@ -26,6 +26,23 @@ mixin _$HomeController on _HomeController, Store {
     }, _$horariosAtom, name: '${_$horariosAtom.name}_set');
   }
 
+  final _$paradasAtom = Atom(name: '_HomeController.paradas');
+
+  @override
+  List<Parada> get paradas {
+    _$paradasAtom.context.enforceReadPolicy(_$paradasAtom);
+    _$paradasAtom.reportObserved();
+    return super.paradas;
+  }
+
+  @override
+  set paradas(List<Parada> value) {
+    _$paradasAtom.context.conditionallyRunInAction(() {
+      super.paradas = value;
+      _$paradasAtom.reportChanged();
+    }, _$paradasAtom, name: '${_$paradasAtom.name}_set');
+  }
+
   final _$sortOptionAtom = Atom(name: '_HomeController.sortOption');
 
   @override
@@ -63,6 +80,26 @@ mixin _$HomeController on _HomeController, Store {
         name: '${_$stateRecuperarHorariosAtom.name}_set');
   }
 
+  final _$stateRecuperarParadasAtom =
+      Atom(name: '_HomeController.stateRecuperarParadas');
+
+  @override
+  RequestState get stateRecuperarParadas {
+    _$stateRecuperarParadasAtom.context
+        .enforceReadPolicy(_$stateRecuperarParadasAtom);
+    _$stateRecuperarParadasAtom.reportObserved();
+    return super.stateRecuperarParadas;
+  }
+
+  @override
+  set stateRecuperarParadas(RequestState value) {
+    _$stateRecuperarParadasAtom.context.conditionallyRunInAction(() {
+      super.stateRecuperarParadas = value;
+      _$stateRecuperarParadasAtom.reportChanged();
+    }, _$stateRecuperarParadasAtom,
+        name: '${_$stateRecuperarParadasAtom.name}_set');
+  }
+
   final _$_HomeControllerActionController =
       ActionController(name: '_HomeController');
 
@@ -87,9 +124,19 @@ mixin _$HomeController on _HomeController, Store {
   }
 
   @override
+  void recuperarParadas() {
+    final _$actionInfo = _$_HomeControllerActionController.startAction();
+    try {
+      return super.recuperarParadas();
+    } finally {
+      _$_HomeControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     final string =
-        'horarios: ${horarios.toString()},sortOption: ${sortOption.toString()},stateRecuperarHorarios: ${stateRecuperarHorarios.toString()}';
+        'horarios: ${horarios.toString()},paradas: ${paradas.toString()},sortOption: ${sortOption.toString()},stateRecuperarHorarios: ${stateRecuperarHorarios.toString()},stateRecuperarParadas: ${stateRecuperarParadas.toString()}';
     return '{$string}';
   }
 }

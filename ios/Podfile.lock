@@ -80,12 +80,18 @@ PODS:
     - nanopb/encode (= 0.3.9011)
   - nanopb/decode (0.3.9011)
   - nanopb/encode (0.3.9011)
+  - path_provider (0.0.1):
+    - Flutter
+  - path_provider_macos (0.0.1):
+    - Flutter
 
 DEPENDENCIES:
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_core_web (from `.symlinks/plugins/firebase_core_web/ios`)
   - firebase_database (from `.symlinks/plugins/firebase_database/ios`)
   - Flutter (from `Flutter`)
+  - path_provider (from `.symlinks/plugins/path_provider/ios`)
+  - path_provider_macos (from `.symlinks/plugins/path_provider_macos/ios`)
 
 SPEC REPOS:
   trunk:
@@ -113,6 +119,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_database/ios"
   Flutter:
     :path: Flutter
+  path_provider:
+    :path: ".symlinks/plugins/path_provider/ios"
+  path_provider_macos:
+    :path: ".symlinks/plugins/path_provider_macos/ios"
 
 SPEC CHECKSUMS:
   Firebase: 458d109512200d1aca2e1b9b6cf7d68a869a4a46
@@ -133,6 +143,8 @@ SPEC CHECKSUMS:
   GoogleUtilities: 547a86735c6f0ee30ad17e94df4fc21f616b71cb
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
+  path_provider: fb74bd0465e96b594bb3b5088ee4a4e7bb1f2a9d
+  path_provider_macos: f760a3c5b04357c380e2fddb6f9db6f3015897e0
 
 PODFILE CHECKSUM: c34e2287a9ccaa606aeceab922830efb9a6ff69a
 
