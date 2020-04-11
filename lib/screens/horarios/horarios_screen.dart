@@ -9,7 +9,7 @@ class HorariosScreen extends StatefulWidget {
   final String codigoLinha;
   final String codigoParada;
 
-  HorariosScreen({Key key, this.codigoLinha, this.codigoParada})
+  HorariosScreen({Key key, @required this.codigoLinha, @required this.codigoParada})
       : super(key: key);
 
   @override
@@ -27,7 +27,7 @@ class _HorariosScreenState extends State<HorariosScreen>
     return Observer(
       builder: (_) {
         List tabKeys = _homeController
-            .horarios[widget.codigoLinha][widget.codigoParada].keys
+            .previsoes[widget.codigoParada][widget.codigoLinha].keys
             .toList();
 
         List<Tab> myTabs = <Tab>[];
@@ -48,11 +48,11 @@ class _HorariosScreenState extends State<HorariosScreen>
                   onPressed: () {
                     String tab = tabKeys.elementAt(_tabController.index);
                     String mensagem = _homeController
-                            .horarios[widget.codigoLinha][widget.codigoParada]
+                            .previsoes[widget.codigoParada][widget.codigoLinha]
                                 [tab]['metricas']
                             .replaceAll("       ", "\n")
                             .replaceAll("      ", "\n") +
-                        "\n\nÚltima atualização: ${_homeController.horarios[widget.codigoLinha][widget.codigoParada][tab]['ultima_atualizacao']}";
+                        "\n\nÚltima atualização: ${_homeController.previsoes[widget.codigoParada][widget.codigoLinha][tab]['ultima_atualizacao']}";
 
                     dialogAlert(context,
                         title: "Mais Informações", message: mensagem);
@@ -69,8 +69,8 @@ class _HorariosScreenState extends State<HorariosScreen>
               children: myTabs.map((Tab tab) {
                 final String label = tab.text.toLowerCase();
 
-                String horarios = _homeController.horarios[widget.codigoLinha]
-                    [widget.codigoParada][label]['horarios'];
+                String horarios = _homeController.previsoes[widget.codigoParada][widget.codigoLinha]
+                    [label]['horarios'];
                 horarios = horarios.replaceAll("[", "");
                 horarios = horarios.replaceAll("]", "");
                 horarios = horarios.replaceAll("'", "");

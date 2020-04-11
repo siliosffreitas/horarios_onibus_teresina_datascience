@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:horariosonibusapp/screens/home/home_controller.dart';
 import 'package:horariosonibusapp/screens/home/linha_tile.dart';
+import 'package:horariosonibusapp/screens/horarios/horarios_screen.dart';
 import 'package:horariosonibusapp/utils/sort.dart';
 
 class DetalheParadaScreen extends StatelessWidget {
@@ -30,13 +31,15 @@ class DetalheParadaScreen extends StatelessWidget {
           return ListView(
             physics: const AlwaysScrollableScrollPhysics(),
             children: linhas
-                .map((horarioKey) => LinhaTile(
-                      codigoLinha: horarioKey,
-              onTap: () {
-//                Navigator.of(context).push(MaterialPageRoute(
-//                    builder: (context) => ParadasDaLinhaScreen(
-//                        codigoLinha: horarioKey)));
-              },
+                .map((linhaKey) => LinhaTile(
+                      codigoLinha: linhaKey,
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => HorariosScreen(
+                                  codigoLinha: linhaKey,
+                                  codigoParada: codigoParada,
+                                )));
+                      },
                     ))
                 .toList(),
           );
