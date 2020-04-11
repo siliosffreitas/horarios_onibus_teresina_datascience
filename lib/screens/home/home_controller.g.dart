@@ -63,14 +63,14 @@ mixin _$HomeController on _HomeController, Store {
   final _$paradasAtom = Atom(name: '_HomeController.paradas');
 
   @override
-  List<Parada> get paradas {
+  Map<dynamic, dynamic> get paradas {
     _$paradasAtom.context.enforceReadPolicy(_$paradasAtom);
     _$paradasAtom.reportObserved();
     return super.paradas;
   }
 
   @override
-  set paradas(List<Parada> value) {
+  set paradas(Map<dynamic, dynamic> value) {
     _$paradasAtom.context.conditionallyRunInAction(() {
       super.paradas = value;
       _$paradasAtom.reportChanged();
@@ -162,6 +162,16 @@ mixin _$HomeController on _HomeController, Store {
     final _$actionInfo = _$_HomeControllerActionController.startAction();
     try {
       return super.recuperarLinhas();
+    } finally {
+      _$_HomeControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void recuperarParadas() {
+    final _$actionInfo = _$_HomeControllerActionController.startAction();
+    try {
+      return super.recuperarParadas();
     } finally {
       _$_HomeControllerActionController.endAction(_$actionInfo);
     }

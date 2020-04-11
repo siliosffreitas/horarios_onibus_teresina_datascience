@@ -22,6 +22,7 @@ class _MapScreenState extends State<MapScreen> {
     super.initState();
     _homeController.recuperarHorarios();
     _homeController.recuperarLinhas();
+    _homeController.recuperarParadas();
   }
 
   @override

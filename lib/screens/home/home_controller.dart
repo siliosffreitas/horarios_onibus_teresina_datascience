@@ -23,7 +23,7 @@ abstract class _HomeController with Store {
   Map linhas = {};
 
   @observable
-  List<Parada> paradas = [];
+  Map paradas = {};
 
   @observable
   SortOption sortOption = SortOption.ASK;
@@ -101,6 +101,32 @@ abstract class _HomeController with Store {
     });
   }
 
+  @action
+  void recuperarParadas() {
+    stateRecuperarHorarios = RequestState.LOADING;
+
+    FirebaseDatabase.instance.setPersistenceEnabled(true);
+    FirebaseDatabase.instance.setPersistenceCacheSizeBytes(10000000);
+
+    DatabaseReference _horariosRef =
+        FirebaseDatabase.instance.reference().child('paradas');
+    _horariosRef.keepSynced(true);
+    _horariosRef.onValue.listen((event) {
+      List paradasList = event.snapshot.value;
+      paradasList.forEach((paradaJson) {
+        if (!paradas.containsKey(paradaJson['codigo'])) {
+          paradas[paradaJson['codigo']] = {};
+        }
+        paradas[paradaJson['codigo']] = paradaJson;
+      });
+      print(paradas);
+
+      stateRecuperarHorarios = RequestState.SUCCESS;
+    }, onError: (Object o) {
+      stateRecuperarHorarios = RequestState.FAIL;
+    });
+  }
+
   _convertendoMapaParaKeyDeParada() {
     horarios.keys.forEach((linhaKey) {
       horarios[linhaKey].keys.forEach((paradaKey) {
@@ -114,52 +140,4 @@ abstract class _HomeController with Store {
       });
     });
   }
-
-//  @action
-//  void recuperarParadas() {
-//    stateRecuperarParadas = RequestState.LOADING;
-//
-//    FirebaseDatabase.instance.setPersistenceEnabled(true);
-//    FirebaseDatabase.instance.setPersistenceCacheSizeBytes(10000000);
-//
-//    DatabaseReference _paradasRef =
-//        FirebaseDatabase.instance.reference().child('paradas');
-//    _paradasRef.keepSynced(true);
-//
-////    _paradasRef.once().then((DataSnapshot snapshot) {
-////      print("A");
-////      print('Connected to second database and read ${snapshot.value}');
-////      print("B");
-////      stateRecuperarParadas = RequestState.SUCCESS;
-////    }).catchError((Object o) {
-////      print("Erro $o");
-////      stateRecuperarParadas = RequestState.FAIL;
-////    });
-//
-//    _paradasRef.onValue.listen((event) {
-//      print("A");
-////      print(event.snapshot.value);
-//      print('-------');
-////      print('Connected to second database and read ${snapshot.value}');
-//
-//      for (Map parada in event.snapshot.value) {
-//        if (parada != null) {
-//          Parada p = Parada(
-//              codigoParada: parada['codigo'],
-//              lat: parada['lat'],
-//              long: parada['long'],
-//              endereco: parada['endereco'],
-//              denominacao: parada['denominacao']);
-//
-//          paradas.add(p);
-//        }
-//      }
-//      print(paradas.length);
-//      stateRecuperarParadas = RequestState.SUCCESS;
-//      print("B");
-//    }, onError: (Object o) {
-//      print("Erro $o");
-//      stateRecuperarParadas = RequestState.FAIL;
-//    });
-//  }
 }
