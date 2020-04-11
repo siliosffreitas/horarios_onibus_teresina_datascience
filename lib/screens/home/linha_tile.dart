@@ -19,12 +19,12 @@ class LinhaTile extends StatelessWidget {
         child: Icon(Icons.directions_bus),
       ),
       title: Text(codigoLinha),
-      subtitle: Observer(
-        builder: (_) {
-          return Text(
-              "${_homeController.horarios[codigoLinha].keys.length} paradas");
-        },
-      ),
+//      subtitle: Observer(
+//        builder: (_) {
+//          return Text(
+//              "${_homeController.horarios[codigoLinha].keys.length} paradas");
+//        },
+//      ),
       trailing: Icon(Icons.chevron_right),
       onTap: onTap,
     );
