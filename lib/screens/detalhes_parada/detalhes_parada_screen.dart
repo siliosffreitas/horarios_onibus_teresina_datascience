@@ -17,7 +17,7 @@ class DetalheParadaScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Linhas de ${codigoParada}"),
+        title: Text("Detalhes de ${codigoParada}"),
       ),
       body: Observer(
         builder: (_) {
@@ -30,7 +30,18 @@ class DetalheParadaScreen extends StatelessWidget {
 
           return ListView(
             physics: const AlwaysScrollableScrollPhysics(),
-            children: linhas
+            children: <Widget>[
+              ListTile(
+                title:
+                    Text(_homeController.paradas[codigoParada]['denominacao']),
+                //Text("Endereço"),
+                subtitle:
+                    Text(_homeController.paradas[codigoParada]['endereco']),
+              ),
+              ListTile(
+                title: Text("LINHAS"),
+              ),
+            ]..addAll(linhas
                 .map((linhaKey) => LinhaTile(
                       codigoLinha: linhaKey,
                       onTap: () {
@@ -41,7 +52,7 @@ class DetalheParadaScreen extends StatelessWidget {
                                 )));
                       },
                     ))
-                .toList(),
+                .toList()),
           );
         },
       ),
