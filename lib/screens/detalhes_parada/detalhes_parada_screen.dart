@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:horariosonibusapp/screens/home/home_controller.dart';
 import 'package:horariosonibusapp/screens/home/linha_tile.dart';
+import 'package:horariosonibusapp/screens/home/loader.dart';
 import 'package:horariosonibusapp/screens/horarios/horarios_screen.dart';
 import 'package:horariosonibusapp/utils/sort.dart';
 
@@ -31,6 +33,40 @@ class DetalheParadaScreen extends StatelessWidget {
           return ListView(
             physics: const AlwaysScrollableScrollPhysics(),
             children: <Widget>[
+              Container(
+                height: 200,
+                child: _homeController.paradas.isEmpty
+                    ? Loader()
+                    : GoogleMap(
+                        mapType: MapType.normal,
+                        myLocationButtonEnabled: false,
+                        initialCameraPosition: CameraPosition(
+                          target: LatLng(
+                              _homeController.paradas[codigoParada]['lat'],
+                              _homeController.paradas[codigoParada]['long']),
+                          zoom: 14,
+                        ),
+//            onMapCreated: (GoogleMapController controller) {
+//              _homeController.controller.complete(controller);
+//            },
+                        markers: <Marker>[
+                          Marker(
+                            markerId: MarkerId("parada_${codigoParada}"),
+                            position: LatLng(
+                              _homeController.paradas[codigoParada]['lat'],
+                              _homeController.paradas[codigoParada]['long'],
+                            ),
+////              infoWindow: InfoWindow(
+////                title: "Parada ${parada.codigo} • ${parada.denominacao}",
+////                snippet: parada.endereco,
+//////                  onTap: () {
+//////                    _onMarkerTapped(markerId);
+//////                  },
+////              ),
+                          )
+                        ].toSet(),
+                      ),
+              ),
               ListTile(
                 title:
                     Text(_homeController.paradas[codigoParada]['denominacao']),
