@@ -15,6 +15,8 @@ class HomeController = _HomeController with _$HomeController;
 abstract class _HomeController with Store {
   @observable
   Map horarios = {};
+
+  @observable
   Map previsoes = {};
 
   @observable
@@ -69,17 +71,8 @@ abstract class _HomeController with Store {
     _horariosRef.keepSynced(true);
     _horariosRef.onValue.listen((event) {
       horarios = event.snapshot.value;
-      horarios.keys.forEach((linhaKey) {
-        horarios[linhaKey].keys.forEach((paradaKey) {
-          if (!previsoes.containsKey(paradaKey)) {
-            previsoes[paradaKey] = {};
-          }
-          if (!previsoes[paradaKey].containsKey(linhaKey)) {
-            previsoes[paradaKey][linhaKey] = {};
-          }
-          previsoes[paradaKey][linhaKey] = horarios[linhaKey][paradaKey];
-        });
-      });
+      _convertendoMapaParaKeyDeParada();
+
       stateRecuperarHorarios = RequestState.SUCCESS;
     }, onError: (Object o) {
       stateRecuperarHorarios = RequestState.FAIL;
@@ -87,6 +80,20 @@ abstract class _HomeController with Store {
 
 //    Future.delayed(const Duration(seconds: 5))
 //        .then((value) => stateRecuperarHorarios = RequestState.SUCCESS);
+  }
+
+  _convertendoMapaParaKeyDeParada() {
+    horarios.keys.forEach((linhaKey) {
+      horarios[linhaKey].keys.forEach((paradaKey) {
+        if (!previsoes.containsKey(paradaKey)) {
+          previsoes[paradaKey] = {};
+        }
+        if (!previsoes[paradaKey].containsKey(linhaKey)) {
+          previsoes[paradaKey][linhaKey] = {};
+        }
+        previsoes[paradaKey][linhaKey] = horarios[linhaKey][paradaKey];
+      });
+    });
   }
 
 //  @action

@@ -21,12 +21,13 @@ class ParadasDaLinhaScreen extends StatelessWidget {
         builder: (_) {
           List paradas = _homeController.horarios[codigoLinha].keys.toList();
           paradas.sort((a, b) => int.parse(a).compareTo(int.parse(b)));
-          return ListView(
-            children: paradas
-                .map((horarioKey) => ParadaTile(
-                    codigoParada: horarioKey, codigoLinha: codigoLinha))
-                .toList(),
-          );
+          return Container();
+//          return ListView(
+//            children: paradas
+//                .map((horarioKey) => ParadaTile(
+//                    codigoParada: horarioKey, codigoLinha: codigoLinha))
+//                .toList(),
+//          );
         },
       ),
     );

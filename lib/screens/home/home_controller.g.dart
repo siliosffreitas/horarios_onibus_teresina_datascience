@@ -26,6 +26,23 @@ mixin _$HomeController on _HomeController, Store {
     }, _$horariosAtom, name: '${_$horariosAtom.name}_set');
   }
 
+  final _$previsoesAtom = Atom(name: '_HomeController.previsoes');
+
+  @override
+  Map<dynamic, dynamic> get previsoes {
+    _$previsoesAtom.context.enforceReadPolicy(_$previsoesAtom);
+    _$previsoesAtom.reportObserved();
+    return super.previsoes;
+  }
+
+  @override
+  set previsoes(Map<dynamic, dynamic> value) {
+    _$previsoesAtom.context.conditionallyRunInAction(() {
+      super.previsoes = value;
+      _$previsoesAtom.reportChanged();
+    }, _$previsoesAtom, name: '${_$previsoesAtom.name}_set');
+  }
+
   final _$paradasAtom = Atom(name: '_HomeController.paradas');
 
   @override
@@ -126,7 +143,7 @@ mixin _$HomeController on _HomeController, Store {
   @override
   String toString() {
     final string =
-        'horarios: ${horarios.toString()},paradas: ${paradas.toString()},sortOption: ${sortOption.toString()},stateRecuperarHorarios: ${stateRecuperarHorarios.toString()},stateRecuperarParadas: ${stateRecuperarParadas.toString()}';
+        'horarios: ${horarios.toString()},previsoes: ${previsoes.toString()},paradas: ${paradas.toString()},sortOption: ${sortOption.toString()},stateRecuperarHorarios: ${stateRecuperarHorarios.toString()},stateRecuperarParadas: ${stateRecuperarParadas.toString()}';
     return '{$string}';
   }
 }
