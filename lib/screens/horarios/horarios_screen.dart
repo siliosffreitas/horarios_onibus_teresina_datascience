@@ -33,9 +33,6 @@ class _HorariosScreenState extends State<HorariosScreen>
           return Loader();
         }
 
-//        print(_homeController
-//            .previsoes[widget.codigoParada][widget.codigoLinha].keys);
-
         List<Periods> keyEnums = [];
         _homeController.previsoes[widget.codigoParada][widget.codigoLinha].keys
             .forEach((key) {
