@@ -18,75 +18,101 @@ class DetalheParadaScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Detalhes de ${codigoParada}"),
-      ),
-      body: Observer(
-        builder: (_) {
-
-          if(_homeController.previsoes == null){
-            return Container();
-          }
-
-          List linhas = _homeController.previsoes[codigoParada].keys.toList();
-          if (_homeController.sortOption == SortOption.ASK) {
-            linhas.sort((a, b) => a.compareTo(b));
-          } else {
-            linhas.sort((a, b) => b.compareTo(a));
-          }
-
-          return ListView(
-            physics: const AlwaysScrollableScrollPhysics(),
+        appBar: AppBar(
+          title: Text("Detalhes de ${codigoParada}"),
+        ),
+        body: SingleChildScrollView(
+          child: Column(
             children: <Widget>[
-              Container(
-                height: 200,
-                child: _homeController.paradas.isEmpty
-                    ? Loader()
-                    : GoogleMap(
-                        mapType: MapType.normal,
-                        myLocationButtonEnabled: false,
-                        initialCameraPosition: CameraPosition(
-                          target: LatLng(
-                              _homeController.paradas[codigoParada]['lat'],
-                              _homeController.paradas[codigoParada]['long']),
-                          zoom: 14,
-                        ),
-                        markers: <Marker>[
-                          Marker(
-                            markerId: MarkerId("parada_${codigoParada}"),
-                            position: LatLng(
-                              _homeController.paradas[codigoParada]['lat'],
-                              _homeController.paradas[codigoParada]['long'],
-                            ),
-                          )
-                        ].toSet(),
+              Observer(
+                builder: (_) {
+                  return Column(
+                    children: <Widget>[
+                      Divider(
+                        height: 1,
                       ),
+                      Container(
+                        height: 200,
+                        child: _homeController.paradas.isEmpty
+                            ? Loader()
+                            : GoogleMap(
+                                mapType: MapType.normal,
+                                myLocationButtonEnabled: false,
+                                initialCameraPosition: CameraPosition(
+                                  target: LatLng(
+                                      _homeController.paradas[codigoParada]
+                                          ['lat'],
+                                      _homeController.paradas[codigoParada]
+                                          ['long']),
+                                  zoom: 14,
+                                ),
+                                markers: <Marker>[
+                                  Marker(
+                                    markerId:
+                                        MarkerId("parada_${codigoParada}"),
+                                    position: LatLng(
+                                      _homeController.paradas[codigoParada]
+                                          ['lat'],
+                                      _homeController.paradas[codigoParada]
+                                          ['long'],
+                                    ),
+                                  )
+                                ].toSet(),
+                              ),
+                      ),
+                      Divider(
+                        height: 1,
+                      ),
+                      ListTile(
+                        title: Text(_homeController.paradas[codigoParada]
+                            ['denominacao']),
+                        //Text("Endereço"),
+                        subtitle: Text(
+                            _homeController.paradas[codigoParada]['endereco']),
+                      ),
+                      Divider(
+                        height: 1,
+                      ),
+                      ListTile(
+                        title: Text("LINHAS"),
+                      ),
+                    ],
+                  );
+                },
               ),
-              ListTile(
-                title:
-                    Text(_homeController.paradas[codigoParada]['denominacao']),
-                //Text("Endereço"),
-                subtitle:
-                    Text(_homeController.paradas[codigoParada]['endereco']),
+              Observer(
+                builder: (_) {
+                  if (_homeController.previsoes[codigoParada] == null) {
+                    return Container(
+                      child: Text("Nenhuma Linha Encontrada"),
+                    );
+                  }
+                  List linhas =
+                      _homeController.previsoes[codigoParada].keys.toList();
+                  if (_homeController.sortOption == SortOption.ASK) {
+                    linhas.sort((a, b) => a.compareTo(b));
+                  } else {
+                    linhas.sort((a, b) => b.compareTo(a));
+                  }
+
+                  return Column(
+                    children: linhas
+                        .map((linhaKey) => LinhaTile(
+                              codigoLinha: linhaKey,
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => HorariosScreen(
+                                          codigoLinha: linhaKey,
+                                          codigoParada: codigoParada,
+                                        )));
+                              },
+                            ))
+                        .toList(),
+                  );
+                },
               ),
-              ListTile(
-                title: Text("LINHAS"),
-              ),
-            ]..addAll(linhas
-                .map((linhaKey) => LinhaTile(
-                      codigoLinha: linhaKey,
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => HorariosScreen(
-                                  codigoLinha: linhaKey,
-                                  codigoParada: codigoParada,
-                                )));
-                      },
-                    ))
-                .toList()),
-          );
-        },
-      ),
-    );
+            ],
+          ),
+        ));
   }
 }
