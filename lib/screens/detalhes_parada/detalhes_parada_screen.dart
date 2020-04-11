@@ -23,6 +23,11 @@ class DetalheParadaScreen extends StatelessWidget {
       ),
       body: Observer(
         builder: (_) {
+
+          if(_homeController.previsoes == null){
+            return Container();
+          }
+
           List linhas = _homeController.previsoes[codigoParada].keys.toList();
           if (_homeController.sortOption == SortOption.ASK) {
             linhas.sort((a, b) => a.compareTo(b));
