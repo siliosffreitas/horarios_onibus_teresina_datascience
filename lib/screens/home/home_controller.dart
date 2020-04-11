@@ -20,6 +20,9 @@ abstract class _HomeController with Store {
   Map previsoes = {};
 
   @observable
+  Map linhas = {};
+
+  @observable
   List<Parada> paradas = [];
 
   @observable
@@ -77,9 +80,25 @@ abstract class _HomeController with Store {
     }, onError: (Object o) {
       stateRecuperarHorarios = RequestState.FAIL;
     });
+  }
 
-//    Future.delayed(const Duration(seconds: 5))
-//        .then((value) => stateRecuperarHorarios = RequestState.SUCCESS);
+  @action
+  void recuperarLinhas() {
+    stateRecuperarHorarios = RequestState.LOADING;
+
+    FirebaseDatabase.instance.setPersistenceEnabled(true);
+    FirebaseDatabase.instance.setPersistenceCacheSizeBytes(10000000);
+
+    DatabaseReference _horariosRef =
+        FirebaseDatabase.instance.reference().child('linhas');
+    _horariosRef.keepSynced(true);
+    _horariosRef.onValue.listen((event) {
+      linhas = event.snapshot.value;
+
+      stateRecuperarHorarios = RequestState.SUCCESS;
+    }, onError: (Object o) {
+      stateRecuperarHorarios = RequestState.FAIL;
+    });
   }
 
   _convertendoMapaParaKeyDeParada() {

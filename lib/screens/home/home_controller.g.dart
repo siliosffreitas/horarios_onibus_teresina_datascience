@@ -43,6 +43,23 @@ mixin _$HomeController on _HomeController, Store {
     }, _$previsoesAtom, name: '${_$previsoesAtom.name}_set');
   }
 
+  final _$linhasAtom = Atom(name: '_HomeController.linhas');
+
+  @override
+  Map<dynamic, dynamic> get linhas {
+    _$linhasAtom.context.enforceReadPolicy(_$linhasAtom);
+    _$linhasAtom.reportObserved();
+    return super.linhas;
+  }
+
+  @override
+  set linhas(Map<dynamic, dynamic> value) {
+    _$linhasAtom.context.conditionallyRunInAction(() {
+      super.linhas = value;
+      _$linhasAtom.reportChanged();
+    }, _$linhasAtom, name: '${_$linhasAtom.name}_set');
+  }
+
   final _$paradasAtom = Atom(name: '_HomeController.paradas');
 
   @override
@@ -141,9 +158,19 @@ mixin _$HomeController on _HomeController, Store {
   }
 
   @override
+  void recuperarLinhas() {
+    final _$actionInfo = _$_HomeControllerActionController.startAction();
+    try {
+      return super.recuperarLinhas();
+    } finally {
+      _$_HomeControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     final string =
-        'horarios: ${horarios.toString()},previsoes: ${previsoes.toString()},paradas: ${paradas.toString()},sortOption: ${sortOption.toString()},stateRecuperarHorarios: ${stateRecuperarHorarios.toString()},stateRecuperarParadas: ${stateRecuperarParadas.toString()}';
+        'horarios: ${horarios.toString()},previsoes: ${previsoes.toString()},linhas: ${linhas.toString()},paradas: ${paradas.toString()},sortOption: ${sortOption.toString()},stateRecuperarHorarios: ${stateRecuperarHorarios.toString()},stateRecuperarParadas: ${stateRecuperarParadas.toString()}';
     return '{$string}';
   }
 }
