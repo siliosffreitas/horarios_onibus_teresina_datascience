@@ -11,6 +11,8 @@ import 'package:horariosonibusapp/screens/home/loader.dart';
 import 'package:horariosonibusapp/screens/paradas/parada_tile.dart';
 import 'package:horariosonibusapp/screens/paradas/paradas_da_linha_screen.dart';
 import 'package:horariosonibusapp/utils/sort.dart';
+import 'package:horariosonibusapp/utils/utils.dart';
+import 'package:latlong/latlong.dart' as latlong;
 
 class MapScreen extends StatefulWidget {
   @override
@@ -50,8 +52,6 @@ class _MapScreenState extends State<MapScreen> {
                 paradas.sort((a, b) => b.compareTo(a));
               }
 
-//              Observer(
-//                builder: (_) {
               return GoogleMap(
                 mapType: MapType.normal,
                 myLocationButtonEnabled: false,
@@ -59,28 +59,37 @@ class _MapScreenState extends State<MapScreen> {
                 onMapCreated: (GoogleMapController controller) {
                   _homeController.controller.complete(controller);
                 },
+                onCameraMove: (position) {
+                  _homeController.filtrarParadas(position.target);
+//                  print(position.target);
+//
+//                  latlong.LatLng target = latlong.LatLng(
+//                      position.target.latitude, position.target.longitude);
+//
+//                  Map paradasProximas = {};
+//
+//                  _homeController.paradas.keys.forEach((element) {
+//                    Map parada = _homeController.paradas[element];
+//
+//                    final double meters = calculateDistance(
+//                            position.target.latitude,
+//                            position.target.longitude,
+//                            parada['lat'],
+//                            parada['long']) *
+//                        1000;
+//
+//                    if (meters < 500) {
+//                      if (!paradasProximas.containsKey(element)) {
+//                        paradasProximas[element] = parada;
+//                      }
+//                    }
+//                  });
+//
+//                  print(paradasProximas.length);
+                },
                 markers: _criarMarkersSetParadasProximas(
-                    paradas: _homeController.paradas),
+                    paradas: _homeController.paradasProximas),
               );
-//                },
-//              )
-
-//              return RefreshIndicator(
-//                child: ListView(
-//                  physics: const AlwaysScrollableScrollPhysics(),
-//                  children: paradas
-//                      .map((paradaKey) => ParadaTile(
-//                            codigoParada: paradaKey,
-////                      onTap: () {
-////                        Navigator.of(context).push(MaterialPageRoute(
-////                            builder: (context) => ParadasDaLinhaScreen(
-////                                codigoLinha: horarioKey)));
-////                      },
-//                          ))
-//                      .toList(),
-//                ),
-//                onRefresh: _handleRefresh,
-//              );
 
             default:
               return Container();

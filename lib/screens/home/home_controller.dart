@@ -7,6 +7,7 @@ import 'package:horariosonibusapp/data/network/request_state.dart';
 import 'package:horariosonibusapp/data/sharedprefs/sort_pref.dart';
 import 'package:horariosonibusapp/models/parada.dart';
 import 'package:horariosonibusapp/utils/sort.dart';
+import 'package:horariosonibusapp/utils/utils.dart';
 import 'package:mobx/mobx.dart';
 
 part 'home_controller.g.dart';
@@ -29,12 +30,34 @@ abstract class _HomeController with Store {
   Map paradas = {};
 
   @observable
+  Map paradasProximas = {};
+
+  @observable
   CameraPosition cameraPosition = CameraPosition(
     target: LatLng(-5.075143, -42.787635),
     zoom: 14.4746,
   );
 
   Completer<GoogleMapController> controller = Completer();
+
+  @action
+  void filtrarParadas(LatLng target) {
+    paradasProximas = {};
+
+    paradas.keys.forEach((element) {
+      Map parada = paradas[element];
+
+      final double meters = calculateDistance(target.latitude, target.longitude,
+              parada['lat'], parada['long']) *
+          1000;
+
+      if (meters <= 1000) {
+        if (!paradasProximas.containsKey(element)) {
+          paradasProximas[element] = parada;
+        }
+      }
+    });
+  }
 
   @observable
   SortOption sortOption = SortOption.ASK;
@@ -46,18 +69,7 @@ abstract class _HomeController with Store {
   RequestState stateRecuperarParadas;
 
   _HomeController() {
-    readSort().then((sort) {
-//      print(sort);
-//      if (sort == null) {
-//        sortOption = SortOption.ASK;
-//      } else {
-//        try {
-//          SortOption.values.firstWhere((s) => s.toString() == sort);
-//        } catch (e) {
-//          sortOption = SortOption.ASK;
-//        }
-//      }
-    }).catchError((err) {
+    readSort().then((sort) {}).catchError((err) {
       sortOption = SortOption.ASK;
     });
   }
@@ -69,7 +81,6 @@ abstract class _HomeController with Store {
     } else {
       sortOption = SortOption.ASK;
     }
-//    print(sortOption.toString());
     saveSort(sortOption.toString()).then((value) => print(value));
   }
 

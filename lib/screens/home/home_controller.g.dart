@@ -77,6 +77,23 @@ mixin _$HomeController on _HomeController, Store {
     }, _$paradasAtom, name: '${_$paradasAtom.name}_set');
   }
 
+  final _$paradasProximasAtom = Atom(name: '_HomeController.paradasProximas');
+
+  @override
+  Map<dynamic, dynamic> get paradasProximas {
+    _$paradasProximasAtom.context.enforceReadPolicy(_$paradasProximasAtom);
+    _$paradasProximasAtom.reportObserved();
+    return super.paradasProximas;
+  }
+
+  @override
+  set paradasProximas(Map<dynamic, dynamic> value) {
+    _$paradasProximasAtom.context.conditionallyRunInAction(() {
+      super.paradasProximas = value;
+      _$paradasProximasAtom.reportChanged();
+    }, _$paradasProximasAtom, name: '${_$paradasProximasAtom.name}_set');
+  }
+
   final _$cameraPositionAtom = Atom(name: '_HomeController.cameraPosition');
 
   @override
@@ -155,6 +172,16 @@ mixin _$HomeController on _HomeController, Store {
       ActionController(name: '_HomeController');
 
   @override
+  void filtrarParadas(LatLng target) {
+    final _$actionInfo = _$_HomeControllerActionController.startAction();
+    try {
+      return super.filtrarParadas(target);
+    } finally {
+      _$_HomeControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void mudarOrdenacao() {
     final _$actionInfo = _$_HomeControllerActionController.startAction();
     try {
@@ -197,7 +224,7 @@ mixin _$HomeController on _HomeController, Store {
   @override
   String toString() {
     final string =
-        'horarios: ${horarios.toString()},previsoes: ${previsoes.toString()},linhas: ${linhas.toString()},paradas: ${paradas.toString()},cameraPosition: ${cameraPosition.toString()},sortOption: ${sortOption.toString()},stateRecuperarHorarios: ${stateRecuperarHorarios.toString()},stateRecuperarParadas: ${stateRecuperarParadas.toString()}';
+        'horarios: ${horarios.toString()},previsoes: ${previsoes.toString()},linhas: ${linhas.toString()},paradas: ${paradas.toString()},paradasProximas: ${paradasProximas.toString()},cameraPosition: ${cameraPosition.toString()},sortOption: ${sortOption.toString()},stateRecuperarHorarios: ${stateRecuperarHorarios.toString()},stateRecuperarParadas: ${stateRecuperarParadas.toString()}';
     return '{$string}';
   }
 }
