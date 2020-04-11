@@ -54,6 +54,8 @@ class _MapScreenState extends State<MapScreen> {
                 initialCameraPosition: _homeController.cameraPosition,
                 onMapCreated: (GoogleMapController controller) {
                   _homeController.controller.complete(controller);
+                  _homeController
+                      .filtrarParadas(_homeController.cameraPosition.target);
                 },
                 onCameraMove: (position) {
                   _homeController.filtrarParadas(position.target);
