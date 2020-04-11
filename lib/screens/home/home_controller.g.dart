@@ -77,6 +77,23 @@ mixin _$HomeController on _HomeController, Store {
     }, _$paradasAtom, name: '${_$paradasAtom.name}_set');
   }
 
+  final _$cameraPositionAtom = Atom(name: '_HomeController.cameraPosition');
+
+  @override
+  CameraPosition get cameraPosition {
+    _$cameraPositionAtom.context.enforceReadPolicy(_$cameraPositionAtom);
+    _$cameraPositionAtom.reportObserved();
+    return super.cameraPosition;
+  }
+
+  @override
+  set cameraPosition(CameraPosition value) {
+    _$cameraPositionAtom.context.conditionallyRunInAction(() {
+      super.cameraPosition = value;
+      _$cameraPositionAtom.reportChanged();
+    }, _$cameraPositionAtom, name: '${_$cameraPositionAtom.name}_set');
+  }
+
   final _$sortOptionAtom = Atom(name: '_HomeController.sortOption');
 
   @override
@@ -180,7 +197,7 @@ mixin _$HomeController on _HomeController, Store {
   @override
   String toString() {
     final string =
-        'horarios: ${horarios.toString()},previsoes: ${previsoes.toString()},linhas: ${linhas.toString()},paradas: ${paradas.toString()},sortOption: ${sortOption.toString()},stateRecuperarHorarios: ${stateRecuperarHorarios.toString()},stateRecuperarParadas: ${stateRecuperarParadas.toString()}';
+        'horarios: ${horarios.toString()},previsoes: ${previsoes.toString()},linhas: ${linhas.toString()},paradas: ${paradas.toString()},cameraPosition: ${cameraPosition.toString()},sortOption: ${sortOption.toString()},stateRecuperarHorarios: ${stateRecuperarHorarios.toString()},stateRecuperarParadas: ${stateRecuperarParadas.toString()}';
     return '{$string}';
   }
 }
