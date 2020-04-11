@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:horariosonibusapp/screens/home/home_controller.dart';
+import 'package:horariosonibusapp/screens/map/controllers/home_controller.dart';
 
 class ErrorMessageScreen extends StatelessWidget {
   final _homeController = GetIt.instance<HomeController>();
@@ -23,9 +23,11 @@ class ErrorMessageScreen extends StatelessWidget {
             height: 16,
           ),
           RaisedButton(
-            child: Text("Tentar novamente"),
+            child: Text("Tentar Novamente"),
             onPressed: () {
               _homeController.recuperarHorarios();
+              _homeController.recuperarLinhas();
+              _homeController.recuperarParadas();
             },
           ),
         ],

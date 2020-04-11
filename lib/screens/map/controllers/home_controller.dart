@@ -1,11 +1,8 @@
 import 'dart:async';
-
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:horariosonibusapp/data/network/request_state.dart';
 import 'package:horariosonibusapp/data/sharedprefs/sort_pref.dart';
-import 'package:horariosonibusapp/models/parada.dart';
 import 'package:horariosonibusapp/utils/sort.dart';
 import 'package:horariosonibusapp/utils/utils.dart';
 import 'package:mobx/mobx.dart';
@@ -141,7 +138,6 @@ abstract class _HomeController with Store {
         }
         paradas[paradaJson['codigo']] = paradaJson;
       });
-//      print(paradas);
 
       stateRecuperarHorarios = RequestState.SUCCESS;
     }, onError: (Object o) {

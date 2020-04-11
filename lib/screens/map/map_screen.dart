@@ -4,15 +4,11 @@ import 'package:get_it/get_it.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:horariosonibusapp/data/network/request_state.dart';
 import 'package:horariosonibusapp/screens/detalhes_parada/detalhes_parada_screen.dart';
-import 'package:horariosonibusapp/screens/home/custom_drawer.dart';
-import 'package:horariosonibusapp/screens/home/error_message_screen.dart';
-import 'package:horariosonibusapp/screens/home/home_controller.dart';
-import 'package:horariosonibusapp/screens/home/loader.dart';
-import 'package:horariosonibusapp/screens/paradas/parada_tile.dart';
-import 'package:horariosonibusapp/screens/paradas/paradas_da_linha_screen.dart';
+import 'package:horariosonibusapp/screens/map/components/custom_drawer.dart';
+import 'package:horariosonibusapp/screens/map/components/error_message_screen.dart';
+import 'package:horariosonibusapp/screens/map/controllers/home_controller.dart';
+import 'package:horariosonibusapp/screens/map/components/loader.dart';
 import 'package:horariosonibusapp/utils/sort.dart';
-import 'package:horariosonibusapp/utils/utils.dart';
-import 'package:latlong/latlong.dart' as latlong;
 
 class MapScreen extends StatefulWidget {
   @override
@@ -61,31 +57,6 @@ class _MapScreenState extends State<MapScreen> {
                 },
                 onCameraMove: (position) {
                   _homeController.filtrarParadas(position.target);
-//                  print(position.target);
-//
-//                  latlong.LatLng target = latlong.LatLng(
-//                      position.target.latitude, position.target.longitude);
-//
-//                  Map paradasProximas = {};
-//
-//                  _homeController.paradas.keys.forEach((element) {
-//                    Map parada = _homeController.paradas[element];
-//
-//                    final double meters = calculateDistance(
-//                            position.target.latitude,
-//                            position.target.longitude,
-//                            parada['lat'],
-//                            parada['long']) *
-//                        1000;
-//
-//                    if (meters < 500) {
-//                      if (!paradasProximas.containsKey(element)) {
-//                        paradasProximas[element] = parada;
-//                      }
-//                    }
-//                  });
-//
-//                  print(paradasProximas.length);
                 },
                 markers: _criarMarkersSetParadasProximas(
                     paradas: _homeController.paradasProximas),

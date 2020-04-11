@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
-import 'package:horariosonibusapp/screens/home/home_controller.dart';
-import 'package:horariosonibusapp/screens/home/loader.dart';
+import 'package:horariosonibusapp/screens/map/controllers/home_controller.dart';
+import 'package:horariosonibusapp/screens/map/components/loader.dart';
 import 'package:horariosonibusapp/screens/horarios/horario_tile.dart';
 import 'package:horariosonibusapp/utils/utils.dart';
 

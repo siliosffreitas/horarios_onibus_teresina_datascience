@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:horariosonibusapp/screens/infos_screens.dart';
+import 'package:horariosonibusapp/screens/infos/infos_screens.dart';
 
 class CustomDrawer extends StatefulWidget {
   @override
@@ -9,9 +9,6 @@ class CustomDrawer extends StatefulWidget {
 class _CustomDrawerState extends State<CustomDrawer> {
   @override
   Widget build(BuildContext context) {
-    DateTime now = DateTime.now();
-    DateTime firstDateInActualMonth = DateTime(now.year, now.month);
-
     return Drawer(
       child: Column(
         children: <Widget>[
@@ -21,8 +18,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             currentAccountPicture: GestureDetector(
               onTap: () => print('clicou na imagem de perfil'),
               child: CircleAvatar(
-                backgroundImage: NetworkImage(
-                    ""),
+                backgroundImage: NetworkImage(""),
               ),
             ),
           ),
@@ -31,8 +27,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
             title: Text("Informações"),
             onTap: () {
               Navigator.of(context).pop();
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => InfosScreen()));
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => InfosScreen()));
             },
           )
         ],

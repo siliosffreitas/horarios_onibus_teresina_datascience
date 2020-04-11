@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
-import 'package:horariosonibusapp/screens/home/home_controller.dart';
+import 'package:horariosonibusapp/screens/map/controllers/home_controller.dart';
 
 class LinhaTile extends StatelessWidget {
   final _homeController = GetIt.instance<HomeController>();
