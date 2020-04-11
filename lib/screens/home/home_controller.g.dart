@@ -124,16 +124,6 @@ mixin _$HomeController on _HomeController, Store {
   }
 
   @override
-  void recuperarParadas() {
-    final _$actionInfo = _$_HomeControllerActionController.startAction();
-    try {
-      return super.recuperarParadas();
-    } finally {
-      _$_HomeControllerActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   String toString() {
     final string =
         'horarios: ${horarios.toString()},paradas: ${paradas.toString()},sortOption: ${sortOption.toString()},stateRecuperarHorarios: ${stateRecuperarHorarios.toString()},stateRecuperarParadas: ${stateRecuperarParadas.toString()}';

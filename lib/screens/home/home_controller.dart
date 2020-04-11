@@ -15,6 +15,7 @@ class HomeController = _HomeController with _$HomeController;
 abstract class _HomeController with Store {
   @observable
   Map horarios = {};
+  Map previsoes = {};
 
   @observable
   List<Parada> paradas = [];
@@ -68,7 +69,17 @@ abstract class _HomeController with Store {
     _horariosRef.keepSynced(true);
     _horariosRef.onValue.listen((event) {
       horarios = event.snapshot.value;
-//      print(event.snapshot.value);
+      horarios.keys.forEach((linhaKey) {
+        horarios[linhaKey].keys.forEach((paradaKey) {
+          if (!previsoes.containsKey(paradaKey)) {
+            previsoes[paradaKey] = {};
+          }
+          if (!previsoes[paradaKey].containsKey(linhaKey)) {
+            previsoes[paradaKey][linhaKey] = {};
+          }
+          previsoes[paradaKey][linhaKey] = horarios[linhaKey][paradaKey];
+        });
+      });
       stateRecuperarHorarios = RequestState.SUCCESS;
     }, onError: (Object o) {
       stateRecuperarHorarios = RequestState.FAIL;
@@ -78,51 +89,51 @@ abstract class _HomeController with Store {
 //        .then((value) => stateRecuperarHorarios = RequestState.SUCCESS);
   }
 
-  @action
-  void recuperarParadas() {
-    stateRecuperarParadas = RequestState.LOADING;
-
-    FirebaseDatabase.instance.setPersistenceEnabled(true);
-    FirebaseDatabase.instance.setPersistenceCacheSizeBytes(10000000);
-
-    DatabaseReference _paradasRef =
-        FirebaseDatabase.instance.reference().child('paradas');
-    _paradasRef.keepSynced(true);
-
-//    _paradasRef.once().then((DataSnapshot snapshot) {
+//  @action
+//  void recuperarParadas() {
+//    stateRecuperarParadas = RequestState.LOADING;
+//
+//    FirebaseDatabase.instance.setPersistenceEnabled(true);
+//    FirebaseDatabase.instance.setPersistenceCacheSizeBytes(10000000);
+//
+//    DatabaseReference _paradasRef =
+//        FirebaseDatabase.instance.reference().child('paradas');
+//    _paradasRef.keepSynced(true);
+//
+////    _paradasRef.once().then((DataSnapshot snapshot) {
+////      print("A");
+////      print('Connected to second database and read ${snapshot.value}');
+////      print("B");
+////      stateRecuperarParadas = RequestState.SUCCESS;
+////    }).catchError((Object o) {
+////      print("Erro $o");
+////      stateRecuperarParadas = RequestState.FAIL;
+////    });
+//
+//    _paradasRef.onValue.listen((event) {
 //      print("A");
-//      print('Connected to second database and read ${snapshot.value}');
-//      print("B");
+////      print(event.snapshot.value);
+//      print('-------');
+////      print('Connected to second database and read ${snapshot.value}');
+//
+//      for (Map parada in event.snapshot.value) {
+//        if (parada != null) {
+//          Parada p = Parada(
+//              codigoParada: parada['codigo'],
+//              lat: parada['lat'],
+//              long: parada['long'],
+//              endereco: parada['endereco'],
+//              denominacao: parada['denominacao']);
+//
+//          paradas.add(p);
+//        }
+//      }
+//      print(paradas.length);
 //      stateRecuperarParadas = RequestState.SUCCESS;
-//    }).catchError((Object o) {
+//      print("B");
+//    }, onError: (Object o) {
 //      print("Erro $o");
 //      stateRecuperarParadas = RequestState.FAIL;
 //    });
-
-    _paradasRef.onValue.listen((event) {
-      print("A");
-//      print(event.snapshot.value);
-      print('-------');
-//      print('Connected to second database and read ${snapshot.value}');
-
-      for (Map parada in event.snapshot.value) {
-        if (parada != null) {
-          Parada p = Parada(
-              codigoParada: parada['codigo'],
-              lat: parada['lat'],
-              long: parada['long'],
-              endereco: parada['endereco'],
-              denominacao: parada['denominacao']);
-
-          paradas.add(p);
-        }
-      }
-      print(paradas.length);
-      stateRecuperarParadas = RequestState.SUCCESS;
-      print("B");
-    }, onError: (Object o) {
-      print("Erro $o");
-      stateRecuperarParadas = RequestState.FAIL;
-    });
-  }
+//  }
 }

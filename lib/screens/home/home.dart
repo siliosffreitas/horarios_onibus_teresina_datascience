@@ -25,7 +25,6 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     _homeController.recuperarHorarios();
-    _homeController.recuperarParadas();
   }
 
   _callSearch(String term) async {
