@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:horariosonibusapp/data/network/request_state.dart';
 import 'package:horariosonibusapp/data/sharedprefs/sort_pref.dart';
 import 'package:horariosonibusapp/models/parada.dart';
@@ -24,6 +27,14 @@ abstract class _HomeController with Store {
 
   @observable
   Map paradas = {};
+
+  @observable
+  CameraPosition cameraPosition = CameraPosition(
+    target: LatLng(-5.075143, -42.787635),
+    zoom: 14.4746,
+  );
+
+  Completer<GoogleMapController> controller = Completer();
 
   @observable
   SortOption sortOption = SortOption.ASK;
@@ -119,7 +130,7 @@ abstract class _HomeController with Store {
         }
         paradas[paradaJson['codigo']] = paradaJson;
       });
-      print(paradas);
+//      print(paradas);
 
       stateRecuperarHorarios = RequestState.SUCCESS;
     }, onError: (Object o) {
