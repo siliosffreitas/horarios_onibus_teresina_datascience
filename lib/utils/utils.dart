@@ -298,3 +298,16 @@ String removeDiacritics(String str) {
         : a.group(0);
   }).toLowerCase();
 }
+
+T fromStringEnum<T>(Iterable<T> values, String stringType) {
+  return values.firstWhere(
+          (f) =>
+      "${f.toString().substring(f.toString().indexOf('.') + 1)}"
+          .toString() ==
+          stringType,
+      orElse: () => null);
+}
+
+String enumToString<T>(Iterable<T> values, T t) {
+  return '$t'.split('.').last;
+}

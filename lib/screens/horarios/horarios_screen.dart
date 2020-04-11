@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:horariosonibusapp/screens/map/controllers/home_controller.dart';
 import 'package:horariosonibusapp/screens/map/components/loader.dart';
 import 'package:horariosonibusapp/screens/horarios/horario_tile.dart';
+import 'package:horariosonibusapp/utils/periods.dart';
 import 'package:horariosonibusapp/utils/utils.dart';
 
 class HorariosScreen extends StatefulWidget {
@@ -31,9 +32,24 @@ class _HorariosScreenState extends State<HorariosScreen>
         if (_homeController.previsoes.isEmpty) {
           return Loader();
         }
-        List tabKeys = _homeController
-            .previsoes[widget.codigoParada][widget.codigoLinha].keys
-            .toList();
+
+//        print(_homeController
+//            .previsoes[widget.codigoParada][widget.codigoLinha].keys);
+
+        List<Periods> keyEnums = [];
+        _homeController.previsoes[widget.codigoParada][widget.codigoLinha].keys
+            .forEach((key) {
+          keyEnums.add(fromStringEnum(Periods.values, key));
+        });
+
+        keyEnums.sort((Periods a, Periods b) {
+          return a.index.compareTo(b.index);
+        });
+
+        List tabKeys = [];
+        keyEnums.forEach((Periods element) {
+          tabKeys.add(enumToString(Periods.values, element));
+        });
 
         List<Tab> myTabs = <Tab>[];
         for (String periodo in tabKeys) {
