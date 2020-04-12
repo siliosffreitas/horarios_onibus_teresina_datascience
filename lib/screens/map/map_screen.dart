@@ -18,6 +18,8 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   final _homeController = GetIt.instance<HomeController>();
 
+  String paradaSelecionada;
+
   @override
   void initState() {
     super.initState();
@@ -29,48 +31,57 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Paradas"),
-      ),
-      drawer: CustomDrawer(),
-      body: Observer(
-        builder: (_) {
-          switch (_homeController.stateRecuperarHorarios) {
-            case RequestState.LOADING:
-              return Loader();
-            case RequestState.FAIL:
-              return ErrorMessageScreen();
-            case RequestState.SUCCESS:
-              List paradas = _homeController.previsoes.keys.toList();
-              if (_homeController.sortOption == SortOption.ASK) {
-                paradas.sort((a, b) => a.compareTo(b));
-              } else {
-                paradas.sort((a, b) => b.compareTo(a));
-              }
+        appBar: AppBar(
+          title: Text("Paradas"),
+        ),
+        drawer: CustomDrawer(),
+        body: Observer(
+          builder: (_) {
+            switch (_homeController.stateRecuperarHorarios) {
+              case RequestState.LOADING:
+                return Loader();
+              case RequestState.FAIL:
+                return ErrorMessageScreen();
+              case RequestState.SUCCESS:
+                List paradas = _homeController.previsoes.keys.toList();
+                if (_homeController.sortOption == SortOption.ASK) {
+                  paradas.sort((a, b) => a.compareTo(b));
+                } else {
+                  paradas.sort((a, b) => b.compareTo(a));
+                }
 
-              return GoogleMap(
-                mapType: MapType.normal,
-                myLocationButtonEnabled: false,
-                initialCameraPosition: _homeController.cameraPosition,
-                onMapCreated: (GoogleMapController controller) {
-                  _homeController.controller.complete(controller);
-                  _homeController
-                      .filtrarParadas(_homeController.cameraPosition.target);
-                },
-                onCameraMove: (position) {
-                  _homeController.filtrarParadas(position.target);
-                },
-                markers: _criarMarkersSetParadasProximas(
-                    paradas: _homeController.paradasProximas),
-                circles: _homeController.circles,
-              );
+                return GoogleMap(
+                  mapType: MapType.normal,
+                  myLocationButtonEnabled: false,
+                  initialCameraPosition: _homeController.cameraPosition,
+                  onMapCreated: (GoogleMapController controller) {
+                    _homeController.controller.complete(controller);
+                    _homeController
+                        .filtrarParadas(_homeController.cameraPosition.target);
+                  },
+                  onCameraMove: (position) {
+                    _homeController.filtrarParadas(position.target);
+                  },
+                  markers: _criarMarkersSetParadasProximas(
+                      paradas: _homeController.paradasProximas),
+                  circles: _homeController.circles,
+                );
 
-            default:
-              return Container();
-          }
-        },
-      ),
-    );
+              default:
+                return Container();
+            }
+          },
+        ),
+        floatingActionButton: paradaSelecionada == null
+            ? null
+            : FloatingActionButton.extended(
+                onPressed: () {
+                  // Add your onPressed code here!
+                  _onMarkerTapped(paradaSelecionada);
+                },
+                label: Text('Detalhes de $paradaSelecionada'),
+                icon: Icon(Icons.chevron_right),
+              ));
   }
 
   _criarMarkersSetParadasProximas({@required Map paradas}) {
@@ -85,6 +96,11 @@ class _MapScreenState extends State<MapScreen> {
             paradas[paradaKey]['lat'],
             paradas[paradaKey]['long'],
           ),
+          onTap: () {
+            setState(() {
+              paradaSelecionada = paradaKey;
+            });
+          },
           infoWindow: InfoWindow(
             title: "Parada ${paradaKey} • ${paradas[paradaKey]['denominacao']}",
             snippet: "${paradas[paradaKey]['endereco']}",
