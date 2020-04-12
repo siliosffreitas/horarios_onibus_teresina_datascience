@@ -62,6 +62,7 @@ class _MapScreenState extends State<MapScreen> {
                 },
                 markers: _criarMarkersSetParadasProximas(
                     paradas: _homeController.paradasProximas),
+                circles: _homeController.circles,
               );
 
             default:

@@ -94,6 +94,23 @@ mixin _$HomeController on _HomeController, Store {
     }, _$paradasProximasAtom, name: '${_$paradasProximasAtom.name}_set');
   }
 
+  final _$circlesAtom = Atom(name: '_HomeController.circles');
+
+  @override
+  Set<Circle> get circles {
+    _$circlesAtom.context.enforceReadPolicy(_$circlesAtom);
+    _$circlesAtom.reportObserved();
+    return super.circles;
+  }
+
+  @override
+  set circles(Set<Circle> value) {
+    _$circlesAtom.context.conditionallyRunInAction(() {
+      super.circles = value;
+      _$circlesAtom.reportChanged();
+    }, _$circlesAtom, name: '${_$circlesAtom.name}_set');
+  }
+
   final _$cameraPositionAtom = Atom(name: '_HomeController.cameraPosition');
 
   @override
@@ -224,7 +241,7 @@ mixin _$HomeController on _HomeController, Store {
   @override
   String toString() {
     final string =
-        'horarios: ${horarios.toString()},previsoes: ${previsoes.toString()},linhas: ${linhas.toString()},paradas: ${paradas.toString()},paradasProximas: ${paradasProximas.toString()},cameraPosition: ${cameraPosition.toString()},sortOption: ${sortOption.toString()},stateRecuperarHorarios: ${stateRecuperarHorarios.toString()},stateRecuperarParadas: ${stateRecuperarParadas.toString()}';
+        'horarios: ${horarios.toString()},previsoes: ${previsoes.toString()},linhas: ${linhas.toString()},paradas: ${paradas.toString()},paradasProximas: ${paradasProximas.toString()},circles: ${circles.toString()},cameraPosition: ${cameraPosition.toString()},sortOption: ${sortOption.toString()},stateRecuperarHorarios: ${stateRecuperarHorarios.toString()},stateRecuperarParadas: ${stateRecuperarParadas.toString()}';
     return '{$string}';
   }
 }

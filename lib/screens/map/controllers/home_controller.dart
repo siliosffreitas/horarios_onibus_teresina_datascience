@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:horariosonibusapp/data/network/request_state.dart';
 import 'package:horariosonibusapp/data/sharedprefs/sort_pref.dart';
@@ -30,6 +31,9 @@ abstract class _HomeController with Store {
   Map paradasProximas = {};
 
   @observable
+  Set<Circle> circles = {};
+
+  @observable
   CameraPosition cameraPosition = CameraPosition(
     target: LatLng(-5.075143, -42.787635),
     zoom: 14.4746,
@@ -54,6 +58,17 @@ abstract class _HomeController with Store {
         }
       }
     });
+
+    circles = Set.from([
+      Circle(
+        circleId: CircleId('circlue'),
+        center: target,
+        strokeWidth: 1,
+        fillColor: Color.fromRGBO(130, 177, 255, 0.3),
+        strokeColor: Colors.blueAccent,
+        radius: 1000,
+      )
+    ]);
   }
 
   @observable
