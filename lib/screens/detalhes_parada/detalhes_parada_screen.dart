@@ -74,7 +74,8 @@ class DetalheParadaScreen extends StatelessWidget {
                         height: 1,
                       ),
                       ListTile(
-                        title: Text("LINHAS"),
+                        title: Text(
+                            "LINHAS (${_homeController.previsoes[codigoParada] == null ? 0 : _homeController.previsoes[codigoParada].keys.toList().length})"),
                       ),
                     ],
                   );
