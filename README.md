@@ -4,10 +4,10 @@ Uma aplicação em Flutter que exibe os horários dos ônibus nas paradas de Ter
 
 
 <p float="left">
-  <img src="/screenshots/App1.jpeg" width="100" title="Tela principal com as paradas de Teresina"/>
-  <img src="/screenshots/App2.jpeg" width="100" title="Detalhes da parada selecionada"/> 
-  <img src="/screenshots/App3.jpeg" width="100" title="Horários que a linha passou na parada"/>
-  <img src="/screenshots/App4.jpeg" width="100" title="Estatísticas"/>
+  <img src="/screenshots/App1.jpeg" width="200" title="Tela principal com as paradas de Teresina"/>
+  <img src="/screenshots/App2.jpeg" width="200" title="Detalhes da parada selecionada"/> 
+  <img src="/screenshots/App3.jpeg" width="200" title="Horários que a linha passou na parada"/>
+  <img src="/screenshots/App4.jpeg" width="200" title="Estatísticas"/>
 </p>
 
 
