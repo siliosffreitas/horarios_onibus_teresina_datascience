@@ -1,6 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:package_info/package_info.dart';
 
-class InfosScreen extends StatelessWidget {
+class InfosScreen extends StatefulWidget {
+  @override
+  _InfosScreenState createState() => _InfosScreenState();
+}
+
+class _InfosScreenState extends State<InfosScreen> {
+  PackageInfo _packageInfo = PackageInfo(
+    appName: 'Unknown',
+    packageName: 'Unknown',
+    version: 'Unknown',
+    buildNumber: 'Unknown',
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    _initPackageInfo();
+  }
+
+  Future<void> _initPackageInfo() async {
+    final PackageInfo info = await PackageInfo.fromPlatform();
+    setState(() {
+      _packageInfo = info;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +59,7 @@ class InfosScreen extends StatelessWidget {
               height: 16,
             ),
             Text(
-              "Versão 1.0.0",
+              "Versão ${_packageInfo.version}",
               textAlign: TextAlign.center,
             )
           ],
