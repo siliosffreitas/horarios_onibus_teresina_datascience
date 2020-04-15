@@ -29,20 +29,11 @@ class HorarioTile extends StatelessWidget {
             color: ehOProximo ? Colors.white : null,
           ),
         ),
-//        subtitle: ehOProximo
-//            ? Text(
-//                "É o próximo",
-//                style: TextStyle(
-//                  color: Colors.white,
-//                ),
-//              )
-//            : null,
       ),
     );
   }
 
   _verificaSeEhOProximo() {
-
     Periods periodoDoProximo;
     print(proximo);
     switch (proximo.weekday) {

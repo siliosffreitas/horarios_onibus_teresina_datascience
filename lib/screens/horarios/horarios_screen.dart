@@ -56,16 +56,7 @@ class _HorariosScreenState extends State<HorariosScreen>
               fromStringEnum(Periods.values, periodo);
           myTabs.add(
             Tab(
-              text: periodo.toUpperCase(),
-              icon: Icon(
-                Icons.fiber_manual_record,
-                color: b
-                    ? Colors.white
-                    : Colors.transparent,
-              ),
-//              icon: _verificaSeEhOProximo(proximo)
-//                  ? Icon(Icons.fiber_manual_record)
-//                  : Icon(Icons.fiber_manual_record, color: Colors.transparent,),
+              text: "${periodo.toUpperCase()}${b ? " •" : ""}",
             ),
           );
         }
@@ -102,7 +93,7 @@ class _HorariosScreenState extends State<HorariosScreen>
           body: TabBarView(
             controller: _tabController,
             children: myTabs.map((Tab tab) {
-              final String label = tab.text.toLowerCase();
+              final String label = tab.text.toLowerCase().replaceAll(" •", "");
 
               String horarios = _homeController.previsoes[widget.codigoParada]
                   [widget.codigoLinha][label]['horarios'];
@@ -163,7 +154,7 @@ class _HorariosScreenState extends State<HorariosScreen>
         print("Seg-Qui");
     }
 
-    return DateTime(2020, 04, 19, 18, 25, 59);
+    return DateTime(2020, 04, 18, 10, 33, 59);
   }
 
   _verificaSeEhOProximo(DateTime proximo) {
@@ -173,8 +164,7 @@ class _HorariosScreenState extends State<HorariosScreen>
         periodoDoProximo = Periods.domingo;
         break;
       case 6:
-        periodoDoProximo = Periods.sabado;
-        break;
+        periodoDoProximo = Periods.sabado;        break;
       default:
         periodoDoProximo = Periods.semana;
     }
