@@ -27,6 +27,8 @@ class _HorariosScreenState extends State<HorariosScreen>
 
   @override
   Widget build(BuildContext context) {
+    DateTime proximo = _calcularProximaHora();
+
     return Observer(
       builder: (_) {
         if (_homeController.previsoes.isEmpty) {
@@ -50,7 +52,22 @@ class _HorariosScreenState extends State<HorariosScreen>
 
         List<Tab> myTabs = <Tab>[];
         for (String periodo in tabKeys) {
-          myTabs.add(Tab(text: periodo.toUpperCase()));
+          bool b = _verificaSeEhOProximo(proximo) ==
+              fromStringEnum(Periods.values, periodo);
+          myTabs.add(
+            Tab(
+              text: periodo.toUpperCase(),
+              icon: Icon(
+                Icons.fiber_manual_record,
+                color: b
+                    ? Colors.white
+                    : Colors.transparent,
+              ),
+//              icon: _verificaSeEhOProximo(proximo)
+//                  ? Icon(Icons.fiber_manual_record)
+//                  : Icon(Icons.fiber_manual_record, color: Colors.transparent,),
+            ),
+          );
         }
 
         _tabController = TabController(vsync: this, length: tabKeys.length);
@@ -115,7 +132,10 @@ class _HorariosScreenState extends State<HorariosScreen>
                     childAspectRatio: _aspectRatio),
                 itemBuilder: (context, index) {
                   final item = listHorarios[index];
-                  return HorarioTile(horario: item);
+                  return HorarioTile(
+                      horario: item,
+                      proximo: proximo,
+                      period: fromStringEnum(Periods.values, label));
                 },
               );
             }).toList(),
@@ -123,6 +143,43 @@ class _HorariosScreenState extends State<HorariosScreen>
         );
       },
     );
+  }
+
+  DateTime _calcularProximaHora() {
+    print("Determinando qual periodo usar primeiramente");
+
+    DateTime now = DateTime.now();
+    switch (now.weekday) {
+      case 6:
+        print("Domingo");
+        break;
+      case 5:
+        print("Sábado");
+        break;
+      case 4:
+        print("Sexta");
+        break;
+      default:
+        print("Seg-Qui");
+    }
+
+    return DateTime(2020, 04, 19, 18, 25, 59);
+  }
+
+  _verificaSeEhOProximo(DateTime proximo) {
+    Periods periodoDoProximo;
+    switch (proximo.weekday) {
+      case 7:
+        periodoDoProximo = Periods.domingo;
+        break;
+      case 6:
+        periodoDoProximo = Periods.sabado;
+        break;
+      default:
+        periodoDoProximo = Periods.semana;
+    }
+
+    return periodoDoProximo;
   }
 
   @override
