@@ -100,6 +100,7 @@ class DetalheParadaScreen extends StatelessWidget {
                     children: linhas
                         .map((linhaKey) => LinhaTile(
                               codigoLinha: linhaKey,
+                              codigoParada: codigoParada,
                               onTap: () {
                                 Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) => HorariosScreen(

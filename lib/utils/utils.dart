@@ -301,13 +301,41 @@ String removeDiacritics(String str) {
 
 T fromStringEnum<T>(Iterable<T> values, String stringType) {
   return values.firstWhere(
-          (f) =>
-      "${f.toString().substring(f.toString().indexOf('.') + 1)}"
-          .toString() ==
+      (f) =>
+          "${f.toString().substring(f.toString().indexOf('.') + 1)}"
+              .toString() ==
           stringType,
       orElse: () => null);
 }
 
 String enumToString<T>(Iterable<T> values, T t) {
   return '$t'.split('.').last;
+}
+
+Future<DateTime> calcularProximo() async {
+  await Future.delayed(Duration(seconds: 3));
+  return DateTime(2020, 04, 26, 13, 00, 59);
+}
+
+String formatarProximo(DateTime proximo) {
+  DateTime now = DateTime.now();
+  if (proximo.isBefore(now)) {
+    return "Já passou";
+  }
+
+  Duration duration = proximo.difference(now);
+  return formataMinutos(duration.inMinutes);
+}
+
+String formataMinutos(int minutos) {
+  if (minutos == 0) return "Está passando!";
+  if (minutos < 60) {
+    return "$minutos ${minutos == 1 ? "minuto" : "minutos"}";
+  } else if (minutos < 1440) {
+    int horas = minutos ~/ 60;
+    return "$horas ${horas == 1 ? "hora" : "horas"} e ${formataMinutos(minutos % 60)}";
+  } else {
+    int dias = minutos ~/ 1440;
+    return "$dias ${dias == 1 ? "dia" : "dias"}";
+  }
 }
