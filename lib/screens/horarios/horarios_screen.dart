@@ -10,9 +10,13 @@ import 'package:horariosonibusapp/utils/utils.dart';
 class HorariosScreen extends StatefulWidget {
   final String codigoLinha;
   final String codigoParada;
+  final DateTime proximo;
 
   HorariosScreen(
-      {Key key, @required this.codigoLinha, @required this.codigoParada})
+      {Key key,
+      @required this.codigoLinha,
+      @required this.codigoParada,
+      this.proximo})
       : super(key: key);
 
   @override
@@ -27,8 +31,6 @@ class _HorariosScreenState extends State<HorariosScreen>
 
   @override
   Widget build(BuildContext context) {
-    DateTime proximo = _calcularProximaHora();
-
     return Observer(
       builder: (_) {
         if (_homeController.previsoes.isEmpty) {
@@ -52,7 +54,7 @@ class _HorariosScreenState extends State<HorariosScreen>
 
         List<Tab> myTabs = <Tab>[];
         for (String periodo in tabKeys) {
-          bool b = _verificaSeEhOProximo(proximo) ==
+          bool b = _verificaSeEhOProximo(widget.proximo) ==
               fromStringEnum(Periods.values, periodo);
           myTabs.add(
             Tab(
@@ -125,7 +127,7 @@ class _HorariosScreenState extends State<HorariosScreen>
                   final item = listHorarios[index];
                   return HorarioTile(
                       horario: item,
-                      proximo: proximo,
+                      proximo: widget.proximo,
                       period: fromStringEnum(Periods.values, label));
                 },
               );
@@ -136,27 +138,6 @@ class _HorariosScreenState extends State<HorariosScreen>
     );
   }
 
-  DateTime _calcularProximaHora() {
-    print("Determinando qual periodo usar primeiramente");
-
-    DateTime now = DateTime.now();
-    switch (now.weekday) {
-      case 6:
-        print("Domingo");
-        break;
-      case 5:
-        print("Sábado");
-        break;
-      case 4:
-        print("Sexta");
-        break;
-      default:
-        print("Seg-Qui");
-    }
-
-    return DateTime(2020, 04, 18, 10, 33, 59);
-  }
-
   _verificaSeEhOProximo(DateTime proximo) {
     Periods periodoDoProximo;
     switch (proximo.weekday) {
@@ -164,7 +145,8 @@ class _HorariosScreenState extends State<HorariosScreen>
         periodoDoProximo = Periods.domingo;
         break;
       case 6:
-        periodoDoProximo = Periods.sabado;        break;
+        periodoDoProximo = Periods.sabado;
+        break;
       default:
         periodoDoProximo = Periods.semana;
     }
