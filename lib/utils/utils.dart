@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:math' show cos, sqrt, asin;
 
+import 'package:horariosonibusapp/utils/periods.dart';
+
 double calculateDistance(lat1, lon1, lat2, lon2) {
   var p = 0.017453292519943295;
   var c = cos;
@@ -312,9 +314,55 @@ String enumToString<T>(Iterable<T> values, T t) {
   return '$t'.split('.').last;
 }
 
-Future<DateTime> calcularProximo() async {
+Future<DateTime> calcularProximo(
+    String parada, String linha, Map horarios) async {
+  print("$parada - $linha");
+//  print(horarios);
+  DateTime now = DateTime.now();
+  Periods periodToday = now.weekday < 5
+      ? Periods.semana
+      : now.weekday == 5 ? Periods.sabado : Periods.domingo;
+
+//  print(periodToday);
+  String horaNow = "${now.hour}:${now.minute}:${now.second}";
+//  print(horaNow);
+  // procurando o próximo no mesmo periodo
+
+  String pStr = enumToString(Periods.values, periodToday);
+
+  if (horarios.containsKey(pStr)) {
+    print("tem horarios p hoje");
+    List<String> horas = horarios[pStr]['horarios']
+        .replaceAll('[', '')
+        .replaceAll(']', '')
+        .replaceAll('\'', '')
+        .replaceAll(' ', '')
+        .split(',');
+//    print(horas);
+
+//    horas.forEach((String horaPrevisao) {
+//      if(horaPrevisao.compareTo(horaNow) < 1 ){
+//          return horaPrevisao;
+//      }
+//    });
+
+    for (String horaPrevisao in horas) {
+      if (horaPrevisao.compareTo(horaNow) > 0) {
+        List<String> hrs = horaPrevisao.split(":");
+        print(hrs);
+        return DateTime(now.year, now.month, now.day, int.parse(hrs[0]),
+            int.parse(hrs[1]), int.parse(hrs[2]));
+      }
+    }
+  } else {
+    print("Não tem horas hoje");
+  }
+//  print(horarios[enumToString(Periods.values, periodToday)]);
+//  List horas = horarios[enumToString(Periods.values, periodToday)]['horarios'];
+//  print(horas);
+
   await Future.delayed(Duration(seconds: 3));
-  return DateTime(2020, 04, 26, 13, 00, 59);
+  return DateTime(2020, 04, 26, 18, 40, 59);
 }
 
 String formatarProximo(DateTime proximo) {

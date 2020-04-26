@@ -33,13 +33,17 @@ class _LinhaTileState extends State<LinhaTile> {
   }
 
   _calcularProximo() {
-    calcularProximo().then((p) {
-      setState(() {
-        DateTime now = DateTime.now();
-        if (p.isAfter(now)) {
-          proximo = p;
-        }
-      });
+    calcularProximo(widget.codigoParada, widget.codigoLinha,
+            _homeController.previsoes[widget.codigoParada][widget.codigoLinha])
+        .then((p) {
+      if (p != null) {
+        setState(() {
+          DateTime now = DateTime.now();
+          if (p.isAfter(now)) {
+            proximo = p;
+          }
+        });
+      }
     });
   }
 
@@ -69,7 +73,13 @@ class _LinhaTileState extends State<LinhaTile> {
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          proximo != null ? Text(formatarProximo(proximo)) : Container(),
+          proximo != null
+              ? Text(
+                  "Próximo:\n${formatarProximo(proximo)}",
+                  textAlign: TextAlign.end,
+                  style: TextStyle(),
+                )
+              : Container(),
           Icon(Icons.chevron_right),
         ],
       ),
