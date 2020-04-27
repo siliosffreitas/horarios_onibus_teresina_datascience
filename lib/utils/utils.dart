@@ -396,6 +396,7 @@ Future<DateTime> calcularProximo(Map horarios) async {
 }
 
 String formatarProximo(DateTime proximo) {
+  if (proximo == null) return null;
   DateTime now = DateTime.now();
   if (proximo.isBefore(now)) {
     return "Já passou";
