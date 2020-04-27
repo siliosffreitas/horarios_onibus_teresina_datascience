@@ -319,9 +319,7 @@ Future<DateTime> calcularProximo(
   print("$parada - $linha");
 //  print(horarios);
   DateTime now = DateTime.now();
-  Periods periodToday = now.weekday < 5
-      ? Periods.semana
-      : now.weekday == 5 ? Periods.sabado : Periods.domingo;
+  Periods periodToday = getPeriodFromWeekday(now.weekday);
 
 //  print(periodToday);
   String horaNow = "${now.hour}:${now.minute}:${now.second}";
@@ -340,12 +338,6 @@ Future<DateTime> calcularProximo(
         .split(',');
 //    print(horas);
 
-//    horas.forEach((String horaPrevisao) {
-//      if(horaPrevisao.compareTo(horaNow) < 1 ){
-//          return horaPrevisao;
-//      }
-//    });
-
     for (String horaPrevisao in horas) {
       if (horaPrevisao.compareTo(horaNow) > 0) {
         List<String> hrs = horaPrevisao.split(":");
@@ -362,7 +354,7 @@ Future<DateTime> calcularProximo(
 //  print(horas);
 
   await Future.delayed(Duration(seconds: 3));
-  return DateTime(2020, 04, 26, 18, 40, 59);
+  return null;
 }
 
 String formatarProximo(DateTime proximo) {

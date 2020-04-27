@@ -54,8 +54,12 @@ class _HorariosScreenState extends State<HorariosScreen>
 
         List<Tab> myTabs = <Tab>[];
         for (String periodo in tabKeys) {
-          bool b = _verificaSeEhOProximo(widget.proximo) ==
-              fromStringEnum(Periods.values, periodo);
+          bool b = false;
+          if (widget.proximo != null) {
+            b = _verificaSeEhOProximo(widget.proximo) ==
+                fromStringEnum(Periods.values, periodo);
+          }
+
           myTabs.add(
             Tab(
               text: "${periodo.toUpperCase()}${b ? " •" : ""}",
@@ -140,17 +144,7 @@ class _HorariosScreenState extends State<HorariosScreen>
   }
 
   _verificaSeEhOProximo(DateTime proximo) {
-    Periods periodoDoProximo;
-    switch (proximo.weekday) {
-      case 7:
-        periodoDoProximo = Periods.domingo;
-        break;
-      case 6:
-        periodoDoProximo = Periods.sabado;
-        break;
-      default:
-        periodoDoProximo = Periods.semana;
-    }
+    Periods periodoDoProximo = getPeriodFromWeekday(proximo.weekday);
 
     return periodoDoProximo;
   }
@@ -159,17 +153,8 @@ class _HorariosScreenState extends State<HorariosScreen>
   _selecionandoAbaDeHoje(List<Periods> keyEnums) {
     if (_tabController != null) {
       DateTime now = DateTime.now();
-      Periods periodNow;
-      switch (now.weekday) {
-        case 7:
-          periodNow = Periods.domingo;
-          break;
-        case 6:
-          periodNow = Periods.sabado;
-          break;
-        default:
-          periodNow = Periods.semana;
-      }
+      Periods periodNow = getPeriodFromWeekday(now.weekday);
+
       int position = keyEnums.indexOf(periodNow);
       if (position > 0) {
         // a posicao 0 já está selecionada por padrao, por isso vai ser modificado

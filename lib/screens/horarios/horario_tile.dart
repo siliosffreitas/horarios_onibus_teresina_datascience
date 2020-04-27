@@ -11,7 +11,7 @@ class HorarioTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool ehOProximo = _verificaSeEhOProximo();
+    bool ehOProximo = proximo == null ? false : _verificaSeEhOProximo();
     return Container(
       height: 50,
       color: ehOProximo ? Colors.blue : null,
@@ -34,18 +34,8 @@ class HorarioTile extends StatelessWidget {
   }
 
   _verificaSeEhOProximo() {
-    Periods periodoDoProximo;
-    print(proximo);
-    switch (proximo.weekday) {
-      case 7:
-        periodoDoProximo = Periods.domingo;
-        break;
-      case 6:
-        periodoDoProximo = Periods.sabado;
-        break;
-      default:
-        periodoDoProximo = Periods.semana;
-    }
+    Periods periodoDoProximo = getPeriodFromWeekday(proximo.weekday);
+
     if (periodoDoProximo != period) {
       return false;
     }
