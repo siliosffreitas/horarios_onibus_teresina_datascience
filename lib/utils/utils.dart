@@ -314,46 +314,84 @@ String enumToString<T>(Iterable<T> values, T t) {
   return '$t'.split('.').last;
 }
 
-Future<DateTime> calcularProximo(
-    String parada, String linha, Map horarios) async {
-  print("$parada - $linha");
-//  print(horarios);
+String twoDigitsInTime(int value) {
+  return value < 10 ? "0$value" : "$value";
+}
+
+Future<DateTime> calcularProximo(Map horarios) async {
+  //  print(horarios);
+  if (horarios == null) return null;
+
   DateTime now = DateTime.now();
-  Periods periodToday = getPeriodFromWeekday(now.weekday);
+  Map<DateTime, Map> dias = {};
+  for (int i = 0; i < 8; i++) {
+    DateTime newDate = now.add(Duration(days: i));
+    List horariosParaEsseDia = [];
 
-//  print(periodToday);
-  String horaNow = "${now.hour}:${now.minute}:${now.second}";
-//  print(horaNow);
-  // procurando o próximo no mesmo periodo
+    Periods periodoDesdeDia = getPeriodFromWeekday(newDate.weekday);
+//    print(periodoDesdeDia);
+//    print(horarios.containsKey(enumToString(Periods.values, periodoDesdeDia)));
 
-  String pStr = enumToString(Periods.values, periodToday);
+    if (horarios.containsKey(enumToString(Periods.values, periodoDesdeDia))) {
+//      print(horarios[enumToString(Periods.values, periodoDesdeDia)]);
+//      String horas = horarios[enumToString(Periods.values, periodoDesdeDia)]['horarios'];
 
-  if (horarios.containsKey(pStr)) {
-    print("tem horarios p hoje");
-    List<String> horas = horarios[pStr]['horarios']
-        .replaceAll('[', '')
-        .replaceAll(']', '')
-        .replaceAll('\'', '')
-        .replaceAll(' ', '')
-        .split(',');
-//    print(horas);
-
-    for (String horaPrevisao in horas) {
-      if (horaPrevisao.compareTo(horaNow) > 0) {
-        List<String> hrs = horaPrevisao.split(":");
-        print(hrs);
-        return DateTime(now.year, now.month, now.day, int.parse(hrs[0]),
-            int.parse(hrs[1]), int.parse(hrs[2]));
+      List<String> horas =
+          horarios[enumToString(Periods.values, periodoDesdeDia)]['horarios']
+              .replaceAll('[', '')
+              .replaceAll(']', '')
+              .replaceAll('\'', '')
+              .replaceAll(' ', '')
+              .split(',');
+//      print(horas);
+      if (i == 0) {
+        // se é hoje, pega o valor inteiro
+        horariosParaEsseDia.addAll(List.of(horas));
+      } else {
+        horariosParaEsseDia.add(horas.first);
       }
     }
-  } else {
-    print("Não tem horas hoje");
-  }
-//  print(horarios[enumToString(Periods.values, periodToday)]);
-//  List horas = horarios[enumToString(Periods.values, periodToday)]['horarios'];
-//  print(horas);
 
-  await Future.delayed(Duration(seconds: 3));
+    dias[newDate] = {
+      'periodo': enumToString(Periods.values, periodoDesdeDia),
+      'horarios': horariosParaEsseDia
+    };
+  }
+
+//  print(dias);
+
+  // garantindo que as datas são visitadas em ordem cronológica
+  List<DateTime> datas = dias.keys.toList()..sort((a, b) => a.compareTo(b));
+//  print(datas);
+  for (int i = 0; i < 8; i++) {
+    List horas = dias[datas[i]]['horarios'];
+
+    if (i == 0) {
+      String horaNow =
+          "${twoDigitsInTime(now.hour)}:${twoDigitsInTime(now.minute)}:${twoDigitsInTime(now.second)}";
+//      print("### horaNow : $horaNow");
+      for (String horaPrevisao in horas) {
+        if (horaPrevisao.compareTo(horaNow) > 0) {
+//          print("### horaPrevisao : $horaPrevisao");
+//          break;
+          List<String> hrs = horaPrevisao.split(":");
+////        print(hrs);
+          return DateTime(datas[i].year, datas[i].month, datas[i].day,
+              int.parse(hrs[0]), int.parse(hrs[1]), int.parse(hrs[2]));
+        }
+      }
+    } else {
+//      print(horas.isNotEmpty);
+      if (horas.isNotEmpty) {
+        List<String> hrs = horas.first.split(":");
+//        print(hrs);
+        return DateTime(datas[i].year, datas[i].month, datas[i].day,
+            int.parse(hrs[0]), int.parse(hrs[1]), int.parse(hrs[2]));
+      }
+    }
+  }
+
+  await Future.delayed(Duration(seconds: 1));
   return null;
 }
 

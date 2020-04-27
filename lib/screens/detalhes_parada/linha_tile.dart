@@ -29,18 +29,11 @@ class _LinhaTileState extends State<LinhaTile> {
   }
 
   _calcularProximo() {
-    calcularProximo(widget.codigoParada, widget.codigoLinha,
+    calcularProximo(
             _homeController.previsoes[widget.codigoParada][widget.codigoLinha])
-        .then((p) {
-      if (p != null) {
-        setState(() {
-          DateTime now = DateTime.now();
-          if (p.isAfter(now)) {
-            proximo = p;
-          }
-        });
-      }
-    });
+        .then((p) => setState(() {
+              proximo = p;
+            }));
   }
 
   @override
