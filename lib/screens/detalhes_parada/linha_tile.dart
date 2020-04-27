@@ -40,45 +40,47 @@ class _LinhaTileState extends State<LinhaTile> {
   Widget build(BuildContext context) {
     _calcularProximo();
 
-    return ListTile(
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Icon(Icons.directions_bus),
-        ),
-        title: Text(widget.codigoLinha),
-        subtitle: Observer(
-          builder: (_) {
-            if (!_homeController.linhas.containsKey(widget.codigoLinha)) {
-              return Container();
-            } else {
-              return Text(
-                _homeController.linhas[widget.codigoLinha]['denominacao'],
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              );
-            }
-          },
-        ),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            proximo != null
-                ? Text(
-                    "Próximo:\n${formatarProximo(proximo)}",
-                    textAlign: TextAlign.end,
-                    style: TextStyle(),
-                  )
-                : Container(),
-            Icon(Icons.chevron_right),
-          ],
-        ),
-        onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => HorariosScreen(
-                    codigoLinha: widget.codigoLinha,
-                    codigoParada: widget.codigoParada,
-                    proximo: proximo,
-                  )));
-        });
+    return Card(
+      child: ListTile(
+          leading: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Icon(Icons.directions_bus),
+          ),
+          title: Text(widget.codigoLinha),
+          subtitle: Observer(
+            builder: (_) {
+              if (!_homeController.linhas.containsKey(widget.codigoLinha)) {
+                return Container();
+              } else {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      _homeController.linhas[widget.codigoLinha]['denominacao'],
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Chip(
+                      backgroundColor: Theme.of(context).primaryColor,
+                      label: Text(
+                        "Próximo: ${formatarProximo(proximo)}",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    )
+                  ],
+                );
+              }
+            },
+          ),
+          trailing: Icon(Icons.chevron_right),
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => HorariosScreen(
+                      codigoLinha: widget.codigoLinha,
+                      codigoParada: widget.codigoParada,
+                      proximo: proximo,
+                    )));
+          }),
+    );
   }
 }

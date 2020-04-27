@@ -12,21 +12,23 @@ class HorarioTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool ehOProximo = proximo == null ? false : _verificaSeEhOProximo();
-    return Container(
-      height: 50,
-      color: ehOProximo ? Colors.blue : null,
-      child: ListTile(
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Icon(
-            Icons.access_time,
-            color: ehOProximo ? Colors.white : null,
+    return Card(
+      color: ehOProximo ? Theme.of(context).primaryColor : null,
+      child: Container(
+        height: 50,
+        child: ListTile(
+          leading: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Icon(
+              Icons.access_time,
+              color: ehOProximo ? Colors.white : null,
+            ),
           ),
-        ),
-        title: Text(
-          horario,
-          style: TextStyle(
-            color: ehOProximo ? Colors.white : null,
+          title: Text(
+            horario,
+            style: TextStyle(
+              color: ehOProximo ? Colors.white : null,
+            ),
           ),
         ),
       ),
