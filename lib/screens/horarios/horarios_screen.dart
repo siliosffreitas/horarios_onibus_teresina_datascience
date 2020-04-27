@@ -54,6 +54,7 @@ class _HorariosScreenState extends State<HorariosScreen>
         }
 
         _tabController = TabController(vsync: this, length: tabKeys.length);
+        _selecionandoAbaDeHoje(keyEnums);
 
         return Scaffold(
           appBar: AppBar(
@@ -123,6 +124,30 @@ class _HorariosScreenState extends State<HorariosScreen>
         );
       },
     );
+  }
+
+  /// Deixa a aba de hoje selecionada
+  _selecionandoAbaDeHoje(List<Periods> keyEnums) {
+    if (_tabController != null) {
+      DateTime now = DateTime.now();
+      Periods periodNow;
+      switch (now.weekday) {
+        case 7:
+          periodNow = Periods.domingo;
+          break;
+        case 6:
+          periodNow = Periods.sabado;
+          break;
+        default:
+          periodNow = Periods.semana;
+      }
+      int position = keyEnums.indexOf(periodNow);
+      if (position > 0) {
+        // a posicao 0 já está selecionada por padrao, por isso vai ser modificado
+        // só se for maior q 0. Isso engloba quando nao encontrar tb, no caso -1
+        _tabController.animateTo(position);
+      }
+    }
   }
 
   @override
