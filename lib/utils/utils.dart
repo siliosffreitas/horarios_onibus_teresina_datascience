@@ -412,7 +412,7 @@ String formataMinutos(int minutos) {
     return "$minutos ${minutos == 1 ? "minuto" : "minutos"}";
   } else if (minutos < 1440) {
     int horas = minutos ~/ 60;
-    return "$horas ${horas == 1 ? "hora" : "horas"} e ${formataMinutos(minutos % 60)}";
+    return "$horas ${horas == 1 ? "hora" : "horas"}${minutos % 60 == 0 ? "" : " e ${minutos % 60} ${minutos % 60 == 1 ? "minuto" : "minutos"}"}";
   } else {
     int dias = minutos ~/ 1440;
     return "$dias ${dias == 1 ? "dia" : "dias"}";

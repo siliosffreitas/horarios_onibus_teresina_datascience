@@ -63,7 +63,7 @@ class _LinhaTileState extends State<LinhaTile> {
                     Chip(
                       backgroundColor: Theme.of(context).primaryColor,
                       label: Text(
-                        "Próximo: ${formatarProximo(proximo) ?? "..."}",
+                        "Próximo em: ${formatarProximo(proximo) ?? "..."}",
                         style: TextStyle(color: Colors.white),
                       ),
                     )
