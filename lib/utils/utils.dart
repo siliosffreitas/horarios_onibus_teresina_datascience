@@ -408,16 +408,23 @@ String formatarProximo(DateTime proximo) {
 
 String formataMinutos(int minutos) {
   if (minutos == 0) return "Está passando!";
-  if (minutos < 60) {
-    return "$minutos ${minutos == 1 ? "minuto" : "minutos"}";
-  } else if (minutos < 1440) {
-    int horas = minutos ~/ 60;
-    int resto = minutos % 60;
-    return "$horas ${horas == 1 ? "hora" : "horas"}${resto == 0 ? "" : " e $resto ${resto == 1 ? "minuto" : "minutos"}"}";
-  } else {
-    int dias = minutos ~/ 1440;
-    int resto = minutos % 1440;
-    int horas = resto ~/ 60;
-    return "$dias ${dias == 1 ? "dia" : "dias"}${horas == 0 ? "" : " e $horas ${horas == 1 ? "hora" : "horas"}"}";
+
+  String retorno = "";
+  int dias = minutos ~/ 1440;
+  if (dias != 0) {
+    retorno += "$dias ${dias == 1 ? "dia" : "dias"}";
   }
+  int resto = minutos % 1440;
+  int horas = resto ~/ 60;
+  if (horas != 0) {
+    retorno +=
+        "${retorno.isEmpty ? "" : " e "}$horas ${horas == 1 ? "hora" : "horas"}";
+  }
+  resto = minutos % 60;
+  if (resto != 0) {
+    retorno +=
+        "${retorno.isEmpty ? "" : " e "}$resto ${resto == 1 ? "minuto" : "minutos"}";
+  }
+
+  return "Próximo em: $retorno";
 }
