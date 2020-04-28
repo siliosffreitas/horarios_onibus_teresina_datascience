@@ -1,5 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:horariosonibusapp/data/network/request_state.dart';
+import 'package:horariosonibusapp/data/sharedprefs/termos_pref.dart';
 import 'package:mobx/mobx.dart';
 
 part 'termos_store.g.dart';
@@ -13,7 +14,29 @@ abstract class _TermosStore with Store {
   String termos = "";
 
   @observable
+  bool aceitouOsTermos;
+
+  @observable
   RequestState stateRecuperarTermos;
+
+  @action
+  void aceitarOsTermos() {
+    saveTermos("TERMOS_ACEITOS");
+    aceitouOsTermos = true;
+  }
+
+  @action
+  void verificarSeAceitouOsTermos() {
+    readTermos().then((termos) {
+      if (termos == null) {
+        aceitouOsTermos = false;
+      } else if (termos == 'TERMOS_ACEITOS') {
+        aceitouOsTermos = true;
+      } else {
+        aceitouOsTermos = false;
+      }
+    });
+  }
 
   @action
   void recuperarTermos() {

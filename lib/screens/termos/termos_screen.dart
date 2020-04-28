@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
 import 'package:horariosonibusapp/data/sharedprefs/termos_pref.dart';
 import 'package:horariosonibusapp/screens/map/map_screen.dart';
 import 'package:horariosonibusapp/screens/termos/stores/termos_store.dart';
@@ -10,12 +11,12 @@ class TermosScreen extends StatefulWidget {
 }
 
 class _TermosScreenState extends State<TermosScreen> {
-  TermosStore store = TermosStore();
+  final _termosController = GetIt.instance<TermosStore>();
 
   @override
   void initState() {
     super.initState();
-    store.recuperarTermos();
+    _termosController.recuperarTermos();
   }
 
   @override
@@ -28,13 +29,13 @@ class _TermosScreenState extends State<TermosScreen> {
         padding: EdgeInsets.all(16),
         child: Observer(
           builder: (_) {
-            if (store.termos.isEmpty) {
+            if (_termosController.termos.isEmpty) {
               return Center(
                 child: CircularProgressIndicator(),
               );
             }
             return Text(
-              store.termos,
+              _termosController.termos,
               textAlign: TextAlign.justify,
             );
           },
@@ -42,7 +43,7 @@ class _TermosScreenState extends State<TermosScreen> {
       ),
       floatingActionButton: Observer(
         builder: (_) {
-          if (store.termos.isEmpty) {
+          if (_termosController.termos.isEmpty) {
             return Container();
           }
           return FloatingActionButton.extended(
@@ -55,11 +56,6 @@ class _TermosScreenState extends State<TermosScreen> {
   }
 
   _aceitarTermos() {
-    Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (context) => MapScreen()));
-//    saveTermos("TERMOS_ACEITOS").then((value) {
-//      Navigator.of(context).pushReplacement(
-//          MaterialPageRoute(builder: (context) => MapScreen()));
-//    });
+    _termosController.aceitarOsTermos();
   }
 }

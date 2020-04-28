@@ -26,6 +26,23 @@ mixin _$TermosStore on _TermosStore, Store {
     }, _$termosAtom, name: '${_$termosAtom.name}_set');
   }
 
+  final _$aceitouOsTermosAtom = Atom(name: '_TermosStore.aceitouOsTermos');
+
+  @override
+  bool get aceitouOsTermos {
+    _$aceitouOsTermosAtom.context.enforceReadPolicy(_$aceitouOsTermosAtom);
+    _$aceitouOsTermosAtom.reportObserved();
+    return super.aceitouOsTermos;
+  }
+
+  @override
+  set aceitouOsTermos(bool value) {
+    _$aceitouOsTermosAtom.context.conditionallyRunInAction(() {
+      super.aceitouOsTermos = value;
+      _$aceitouOsTermosAtom.reportChanged();
+    }, _$aceitouOsTermosAtom, name: '${_$aceitouOsTermosAtom.name}_set');
+  }
+
   final _$stateRecuperarTermosAtom =
       Atom(name: '_TermosStore.stateRecuperarTermos');
 
@@ -49,6 +66,26 @@ mixin _$TermosStore on _TermosStore, Store {
   final _$_TermosStoreActionController = ActionController(name: '_TermosStore');
 
   @override
+  void aceitarOsTermos() {
+    final _$actionInfo = _$_TermosStoreActionController.startAction();
+    try {
+      return super.aceitarOsTermos();
+    } finally {
+      _$_TermosStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void verificarSeAceitouOsTermos() {
+    final _$actionInfo = _$_TermosStoreActionController.startAction();
+    try {
+      return super.verificarSeAceitouOsTermos();
+    } finally {
+      _$_TermosStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void recuperarTermos() {
     final _$actionInfo = _$_TermosStoreActionController.startAction();
     try {
@@ -61,7 +98,7 @@ mixin _$TermosStore on _TermosStore, Store {
   @override
   String toString() {
     final string =
-        'termos: ${termos.toString()},stateRecuperarTermos: ${stateRecuperarTermos.toString()}';
+        'termos: ${termos.toString()},aceitouOsTermos: ${aceitouOsTermos.toString()},stateRecuperarTermos: ${stateRecuperarTermos.toString()}';
     return '{$string}';
   }
 }
