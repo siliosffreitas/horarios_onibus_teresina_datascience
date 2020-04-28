@@ -122,7 +122,7 @@ class _HorariosScreenState extends State<HorariosScreen>
 
               return GridView.builder(
                 padding:
-                    EdgeInsets.only(left: 5.0, right: 5.0, top: 10, bottom: 10),
+                    EdgeInsets.all(12),
                 shrinkWrap: false,
                 itemCount: listHorarios.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
