@@ -18,7 +18,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             currentAccountPicture: GestureDetector(
               onTap: () => print('clicou na imagem de perfil'),
               child: CircleAvatar(
-                backgroundImage: NetworkImage(""),
+                backgroundImage: NetworkImage("https://raw.githubusercontent.com/siliosffreitas/horarios_onibus_teresina_datascience/master/android/app/src/main/res/playstore-icon.png"),
               ),
             ),
           ),

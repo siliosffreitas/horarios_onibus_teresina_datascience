@@ -36,9 +36,15 @@ class _InfosScreenState extends State<InfosScreen> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Image.network(
+              "https://raw.githubusercontent.com/siliosffreitas/horarios_onibus_teresina_datascience/master/android/app/src/main/res/playstore-icon.png",
+              width: 100,
+            ),
+            SizedBox(
+              height: 16,
+            ),
             Text(
               "Aplicativo que exibe os resultados do artigo 'Criação de um Sistema de Previsão de Chegada de um Ônibus em uma Parada de Teresina'",
               textAlign: TextAlign.center,
